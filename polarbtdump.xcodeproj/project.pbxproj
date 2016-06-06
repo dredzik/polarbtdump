@@ -24,6 +24,9 @@
 		41CD89FD1D06094C00463228 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89EF1D06094C00463228 /* RingBuffer.swift */; };
 		41CD89FE1D06094C00463228 /* UnknownFieldSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89F11D06094C00463228 /* UnknownFieldSet.swift */; };
 		41CD89FF1D06094C00463228 /* WireFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89F21D06094C00463228 /* WireFormat.swift */; };
+		41CD8A061D060A1300463228 /* PSChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8A031D060A1300463228 /* PSChunk.swift */; };
+		41CD8A071D060A1300463228 /* PSMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8A041D060A1300463228 /* PSMessage.swift */; };
+		41CD8A081D060A1300463228 /* PSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8A051D060A1300463228 /* PSPacket.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +63,10 @@
 		41CD89F01D06094C00463228 /* swift-descriptor.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "swift-descriptor.proto"; path = "protobuf/swift-descriptor.proto"; sourceTree = "<group>"; };
 		41CD89F11D06094C00463228 /* UnknownFieldSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnknownFieldSet.swift; path = protobuf/UnknownFieldSet.swift; sourceTree = "<group>"; };
 		41CD89F21D06094C00463228 /* WireFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WireFormat.swift; path = protobuf/WireFormat.swift; sourceTree = "<group>"; };
+		41CD8A011D060A1300463228 /* Messages.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Messages.proto; sourceTree = "<group>"; };
+		41CD8A031D060A1300463228 /* PSChunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSChunk.swift; sourceTree = "<group>"; };
+		41CD8A041D060A1300463228 /* PSMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSMessage.swift; sourceTree = "<group>"; };
+		41CD8A051D060A1300463228 /* PSPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPacket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +102,12 @@
 				41CD8A001D06095600463228 /* protobuf */,
 				41CD89D41D05FF6600463228 /* main.swift */,
 				41CD89DB1D06000E00463228 /* PolarDump.swift */,
+				41CD8A031D060A1300463228 /* PSChunk.swift */,
+				41CD8A041D060A1300463228 /* PSMessage.swift */,
+				41CD8A051D060A1300463228 /* PSPacket.swift */,
 				41CD89DE1D0600A700463228 /* Constants.swift */,
 				41CD89DF1D0600A700463228 /* Utils.swift */,
+				41CD8A011D060A1300463228 /* Messages.proto */,
 			);
 			path = polarbtdump;
 			sourceTree = "<group>";
@@ -186,7 +197,10 @@
 				41CD89E21D0600A700463228 /* Utils.swift in Sources */,
 				41CD89FC1D06094C00463228 /* Google.Protobuf.SwiftDescriptor.proto.swift in Sources */,
 				41CD89F31D06094C00463228 /* AbstractMessage.swift in Sources */,
+				41CD8A071D060A1300463228 /* PSMessage.swift in Sources */,
 				41CD89F51D06094C00463228 /* CodedOutputStream.swift in Sources */,
+				41CD8A061D060A1300463228 /* PSChunk.swift in Sources */,
+				41CD8A081D060A1300463228 /* PSPacket.swift in Sources */,
 				41CD89DC1D06000F00463228 /* PolarDump.swift in Sources */,
 				41CD89F71D06094C00463228 /* ExtendableMessage.swift in Sources */,
 				41CD89D51D05FF6600463228 /* main.swift in Sources */,
