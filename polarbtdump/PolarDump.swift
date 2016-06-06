@@ -110,10 +110,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     func dump() {
         print(SUCC, "dump started")
         
-//        sendraw([0x0A, 0x00, 0x05, 0x00])
-//        sendraw([0x0A, 0x00, 0x05, 0x00])
-//        sendraw([0x0A, 0x00, 0x01, 0x08, 0x01, 0x00])
-//        sendraw([0x0A, 0x00, 0x09, 0x00])
+        sendraw([0x0A, 0x00, 0x00, 0x00])
 
         sendra.append("/")
         nextr()
@@ -122,6 +119,9 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     func nextr() {
         if sendra.count == 0 {
             print(SUCC, "dump finished")
+            
+            sendraw([0x0A, 0x00, 0x01, 0x00])
+
             return
         }
         
