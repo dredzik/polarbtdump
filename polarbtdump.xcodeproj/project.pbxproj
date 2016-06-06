@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		41CD89D51D05FF6600463228 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89D41D05FF6600463228 /* main.swift */; };
+		41CD89DC1D06000F00463228 /* PolarDump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89DB1D06000E00463228 /* PolarDump.swift */; };
+		41CD89E11D0600A700463228 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89DE1D0600A700463228 /* Constants.swift */; };
+		41CD89E21D0600A700463228 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89DF1D0600A700463228 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		41CD89D11D05FF6600463228 /* polarbtdump */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = polarbtdump; sourceTree = BUILT_PRODUCTS_DIR; };
 		41CD89D41D05FF6600463228 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		41CD89DB1D06000E00463228 /* PolarDump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolarDump.swift; sourceTree = "<group>"; };
+		41CD89DE1D0600A700463228 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		41CD89DF1D0600A700463228 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				41CD89D41D05FF6600463228 /* main.swift */,
+				41CD89DB1D06000E00463228 /* PolarDump.swift */,
+				41CD89DE1D0600A700463228 /* Constants.swift */,
+				41CD89DF1D0600A700463228 /* Utils.swift */,
 			);
 			path = polarbtdump;
 			sourceTree = "<group>";
@@ -119,7 +128,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41CD89E21D0600A700463228 /* Utils.swift in Sources */,
+				41CD89DC1D06000F00463228 /* PolarDump.swift in Sources */,
 				41CD89D51D05FF6600463228 /* main.swift in Sources */,
+				41CD89E11D0600A700463228 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

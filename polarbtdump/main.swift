@@ -8,5 +8,6 @@
 
 import Foundation
 
-print("Hello, World!")
-
+print(SUCC, "polarbtdump started")
+let dump = PolarDump()
+dispatch_main()
