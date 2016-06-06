@@ -1,0 +1,44 @@
+import "protobuf/swift-descriptor.proto";
+option (.google.protobuf.swift_file_options).compile_for_framework = false;
+
+message Request {
+    enum Type {
+        READ = 0;
+        WRITE = 1;
+        DELETE = 3;
+    }
+
+    optional Type type = 1;
+    optional string path = 2;
+}
+
+message Directory {
+    message Entry {
+        optional string path = 1;
+        optional uint32 size = 2;
+        optional DateTime created = 3;
+        optional DateTime modified = 4;
+        optional DateTime unknown = 5;
+    }
+
+    repeated Entry entries = 1;
+}
+
+message DateTime {
+    optional Date date = 1;
+    optional Time time = 2;
+    optional uint32 timezone = 3;
+}
+
+message Date {
+    optional uint32 year = 1;
+    optional uint32 month = 2;
+    optional uint32 day = 3;
+}
+
+message Time {
+    optional uint32 hour = 1;
+    optional uint32 minute = 2;
+    optional uint32 second = 3;
+    optional uint32 milisecond = 4;
+}

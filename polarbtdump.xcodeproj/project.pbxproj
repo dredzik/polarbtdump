@@ -27,6 +27,7 @@
 		41CD8A061D060A1300463228 /* PSChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8A031D060A1300463228 /* PSChunk.swift */; };
 		41CD8A071D060A1300463228 /* PSMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8A041D060A1300463228 /* PSMessage.swift */; };
 		41CD8A081D060A1300463228 /* PSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8A051D060A1300463228 /* PSPacket.swift */; };
+		41CD8A0B1D060ACC00463228 /* Messages.proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD8A0A1D060ACC00463228 /* Messages.proto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,6 +68,7 @@
 		41CD8A031D060A1300463228 /* PSChunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSChunk.swift; sourceTree = "<group>"; };
 		41CD8A041D060A1300463228 /* PSMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSMessage.swift; sourceTree = "<group>"; };
 		41CD8A051D060A1300463228 /* PSPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPacket.swift; sourceTree = "<group>"; };
+		41CD8A0A1D060ACC00463228 /* Messages.proto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.proto.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				41CD89DE1D0600A700463228 /* Constants.swift */,
 				41CD89DF1D0600A700463228 /* Utils.swift */,
 				41CD8A011D060A1300463228 /* Messages.proto */,
+				41CD8A0A1D060ACC00463228 /* Messages.proto.swift */,
 			);
 			path = polarbtdump;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 41CD89D81D05FF6600463228 /* Build configuration list for PBXNativeTarget "polarbtdump" */;
 			buildPhases = (
+				41CD8A091D060AA600463228 /* ShellScript */,
 				41CD89CD1D05FF6600463228 /* Sources */,
 				41CD89CE1D05FF6600463228 /* Frameworks */,
 				41CD89CF1D05FF6600463228 /* CopyFiles */,
@@ -187,6 +191,22 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		41CD8A091D060AA600463228 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd polarbtdump && protoc --swift_out=./ Messages.proto";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		41CD89CD1D05FF6600463228 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -203,6 +223,7 @@
 				41CD8A081D060A1300463228 /* PSPacket.swift in Sources */,
 				41CD89DC1D06000F00463228 /* PolarDump.swift in Sources */,
 				41CD89F71D06094C00463228 /* ExtendableMessage.swift in Sources */,
+				41CD8A0B1D060ACC00463228 /* Messages.proto.swift in Sources */,
 				41CD89D51D05FF6600463228 /* main.swift in Sources */,
 				41CD89F61D06094C00463228 /* ConcreateExtensionField.swift in Sources */,
 				41CD89F41D06094C00463228 /* CodedInputStream.swift in Sources */,
