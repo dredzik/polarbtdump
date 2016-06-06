@@ -11,6 +11,19 @@
 		41CD89DC1D06000F00463228 /* PolarDump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89DB1D06000E00463228 /* PolarDump.swift */; };
 		41CD89E11D0600A700463228 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89DE1D0600A700463228 /* Constants.swift */; };
 		41CD89E21D0600A700463228 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89DF1D0600A700463228 /* Utils.swift */; };
+		41CD89F31D06094C00463228 /* AbstractMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89E31D06094C00463228 /* AbstractMessage.swift */; };
+		41CD89F41D06094C00463228 /* CodedInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89E41D06094C00463228 /* CodedInputStream.swift */; };
+		41CD89F51D06094C00463228 /* CodedOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89E51D06094C00463228 /* CodedOutputStream.swift */; };
+		41CD89F61D06094C00463228 /* ConcreateExtensionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89E61D06094C00463228 /* ConcreateExtensionField.swift */; };
+		41CD89F71D06094C00463228 /* ExtendableMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89E81D06094C00463228 /* ExtendableMessage.swift */; };
+		41CD89F81D06094C00463228 /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89E91D06094C00463228 /* ExtensionRegistry.swift */; };
+		41CD89F91D06094C00463228 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89EA1D06094C00463228 /* Field.swift */; };
+		41CD89FA1D06094C00463228 /* GeneratedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89EB1D06094C00463228 /* GeneratedMessage.swift */; };
+		41CD89FB1D06094C00463228 /* Google.Protobuf.Descriptor.proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89EC1D06094C00463228 /* Google.Protobuf.Descriptor.proto.swift */; };
+		41CD89FC1D06094C00463228 /* Google.Protobuf.SwiftDescriptor.proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89ED1D06094C00463228 /* Google.Protobuf.SwiftDescriptor.proto.swift */; };
+		41CD89FD1D06094C00463228 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89EF1D06094C00463228 /* RingBuffer.swift */; };
+		41CD89FE1D06094C00463228 /* UnknownFieldSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89F11D06094C00463228 /* UnknownFieldSet.swift */; };
+		41CD89FF1D06094C00463228 /* WireFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CD89F21D06094C00463228 /* WireFormat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +44,22 @@
 		41CD89DB1D06000E00463228 /* PolarDump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolarDump.swift; sourceTree = "<group>"; };
 		41CD89DE1D0600A700463228 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		41CD89DF1D0600A700463228 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		41CD89E31D06094C00463228 /* AbstractMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractMessage.swift; path = protobuf/AbstractMessage.swift; sourceTree = "<group>"; };
+		41CD89E41D06094C00463228 /* CodedInputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CodedInputStream.swift; path = protobuf/CodedInputStream.swift; sourceTree = "<group>"; };
+		41CD89E51D06094C00463228 /* CodedOutputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CodedOutputStream.swift; path = protobuf/CodedOutputStream.swift; sourceTree = "<group>"; };
+		41CD89E61D06094C00463228 /* ConcreateExtensionField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConcreateExtensionField.swift; path = protobuf/ConcreateExtensionField.swift; sourceTree = "<group>"; };
+		41CD89E71D06094C00463228 /* descriptor.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = descriptor.proto; path = protobuf/descriptor.proto; sourceTree = "<group>"; };
+		41CD89E81D06094C00463228 /* ExtendableMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtendableMessage.swift; path = protobuf/ExtendableMessage.swift; sourceTree = "<group>"; };
+		41CD89E91D06094C00463228 /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionRegistry.swift; path = protobuf/ExtensionRegistry.swift; sourceTree = "<group>"; };
+		41CD89EA1D06094C00463228 /* Field.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Field.swift; path = protobuf/Field.swift; sourceTree = "<group>"; };
+		41CD89EB1D06094C00463228 /* GeneratedMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeneratedMessage.swift; path = protobuf/GeneratedMessage.swift; sourceTree = "<group>"; };
+		41CD89EC1D06094C00463228 /* Google.Protobuf.Descriptor.proto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Google.Protobuf.Descriptor.proto.swift; path = protobuf/Google.Protobuf.Descriptor.proto.swift; sourceTree = "<group>"; };
+		41CD89ED1D06094C00463228 /* Google.Protobuf.SwiftDescriptor.proto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Google.Protobuf.SwiftDescriptor.proto.swift; path = protobuf/Google.Protobuf.SwiftDescriptor.proto.swift; sourceTree = "<group>"; };
+		41CD89EE1D06094C00463228 /* ProtocolBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolBuffers.h; path = protobuf/ProtocolBuffers.h; sourceTree = "<group>"; };
+		41CD89EF1D06094C00463228 /* RingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RingBuffer.swift; path = protobuf/RingBuffer.swift; sourceTree = "<group>"; };
+		41CD89F01D06094C00463228 /* swift-descriptor.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "swift-descriptor.proto"; path = "protobuf/swift-descriptor.proto"; sourceTree = "<group>"; };
+		41CD89F11D06094C00463228 /* UnknownFieldSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnknownFieldSet.swift; path = protobuf/UnknownFieldSet.swift; sourceTree = "<group>"; };
+		41CD89F21D06094C00463228 /* WireFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WireFormat.swift; path = protobuf/WireFormat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,12 +92,36 @@
 		41CD89D31D05FF6600463228 /* polarbtdump */ = {
 			isa = PBXGroup;
 			children = (
+				41CD8A001D06095600463228 /* protobuf */,
 				41CD89D41D05FF6600463228 /* main.swift */,
 				41CD89DB1D06000E00463228 /* PolarDump.swift */,
 				41CD89DE1D0600A700463228 /* Constants.swift */,
 				41CD89DF1D0600A700463228 /* Utils.swift */,
 			);
 			path = polarbtdump;
+			sourceTree = "<group>";
+		};
+		41CD8A001D06095600463228 /* protobuf */ = {
+			isa = PBXGroup;
+			children = (
+				41CD89E31D06094C00463228 /* AbstractMessage.swift */,
+				41CD89E41D06094C00463228 /* CodedInputStream.swift */,
+				41CD89E51D06094C00463228 /* CodedOutputStream.swift */,
+				41CD89E61D06094C00463228 /* ConcreateExtensionField.swift */,
+				41CD89E71D06094C00463228 /* descriptor.proto */,
+				41CD89E81D06094C00463228 /* ExtendableMessage.swift */,
+				41CD89E91D06094C00463228 /* ExtensionRegistry.swift */,
+				41CD89EA1D06094C00463228 /* Field.swift */,
+				41CD89EB1D06094C00463228 /* GeneratedMessage.swift */,
+				41CD89EC1D06094C00463228 /* Google.Protobuf.Descriptor.proto.swift */,
+				41CD89ED1D06094C00463228 /* Google.Protobuf.SwiftDescriptor.proto.swift */,
+				41CD89EE1D06094C00463228 /* ProtocolBuffers.h */,
+				41CD89EF1D06094C00463228 /* RingBuffer.swift */,
+				41CD89F01D06094C00463228 /* swift-descriptor.proto */,
+				41CD89F11D06094C00463228 /* UnknownFieldSet.swift */,
+				41CD89F21D06094C00463228 /* WireFormat.swift */,
+			);
+			name = protobuf;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,10 +181,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41CD89FE1D06094C00463228 /* UnknownFieldSet.swift in Sources */,
+				41CD89F81D06094C00463228 /* ExtensionRegistry.swift in Sources */,
 				41CD89E21D0600A700463228 /* Utils.swift in Sources */,
+				41CD89FC1D06094C00463228 /* Google.Protobuf.SwiftDescriptor.proto.swift in Sources */,
+				41CD89F31D06094C00463228 /* AbstractMessage.swift in Sources */,
+				41CD89F51D06094C00463228 /* CodedOutputStream.swift in Sources */,
 				41CD89DC1D06000F00463228 /* PolarDump.swift in Sources */,
+				41CD89F71D06094C00463228 /* ExtendableMessage.swift in Sources */,
 				41CD89D51D05FF6600463228 /* main.swift in Sources */,
+				41CD89F61D06094C00463228 /* ConcreateExtensionField.swift in Sources */,
+				41CD89F41D06094C00463228 /* CodedInputStream.swift in Sources */,
+				41CD89FA1D06094C00463228 /* GeneratedMessage.swift in Sources */,
+				41CD89FD1D06094C00463228 /* RingBuffer.swift in Sources */,
+				41CD89FB1D06094C00463228 /* Google.Protobuf.Descriptor.proto.swift in Sources */,
 				41CD89E11D0600A700463228 /* Constants.swift in Sources */,
+				41CD89FF1D06094C00463228 /* WireFormat.swift in Sources */,
+				41CD89F91D06094C00463228 /* Field.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
