@@ -77,11 +77,13 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
         peripheral.respondToRequest(request, withResult: .Success)
         
         print(SUCC, "device ready")
+        dump()
     }
     
     public func peripheralManager(peripheral: CBPeripheralManager, didReceiveWriteRequest request: CBATTRequest) {
         if let value = request.value {
             cd.value = value
+            recvp(d2a(value))
         }
         
         peripheral.respondToRequest(request, withResult: .Success)
@@ -94,8 +96,110 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     public func peripheralManagerIsReadyToUpdateSubscribers(peripheral: CBPeripheralManager) {
+        sendp()
     }
     
     // PolarDump
+    var recvpa = [PSPacket]()
+    var recvca = [PSChunk]()
+    var sendpa = [[UInt8]]()
+    var sendca = [PSChunk]()
+    var sendra = [String]()
+    var r : String?
+    
+    func dump() {
+        print(SUCC, "dump started")
+        
+//        sendraw([0x0A, 0x00, 0x05, 0x00])
+//        sendraw([0x0A, 0x00, 0x05, 0x00])
+//        sendraw([0x0A, 0x00, 0x01, 0x08, 0x01, 0x00])
+//        sendraw([0x0A, 0x00, 0x09, 0x00])
+
+        sendra.append("/")
+        nextr()
+    }
+    
+    func nextr() {
+        if sendra.count == 0 {
+            print(SUCC, "dump finished")
+            return
+        }
+        
+        r = sendra.removeFirst()
+        sendr(try! Request.Builder().setTypes(.Read).setPath(r!).build())
+    }
+    
+    func sendr(request: Request) {
+        print(SUCC, "downloading", request.path)
+        
+        let data = d2a(request.data())
+        let message = PSMessage()
+        message.header = [UInt8(data.count), 0x00]
+        message.payload = data + [0x00]
+        
+        sendca = PSMessage.encode(message)
+        sendc()
+    }
+    
+    public func sendc() {
+        let chunk = sendca.removeFirst()
+
+        for packet in PSChunk.encode(chunk) {
+            sendpa.append(PSPacket.encode(packet))
+        }
+
+        sendp()
+    }
+    
+    public func sendp() {
+        while sendpa.count > 0 {
+            if !pm!.updateValue(a2d(sendpa[0]), forCharacteristic: cd, onSubscribedCentrals: nil) {
+                break
+            }
+            
+            sendpa.removeFirst()
+        }
+    }
+    
+    public func sendraw(value: [UInt8]) {
+        sendpa.append(value)
+        sendp()
+    }
+    
+    public func recvp(value: [UInt8]) {
+        let packet = PSPacket.decode(value)
+        recvpa.append(packet)
+        
+        if (packet.sequence == 0) {
+            recvc(recvpa)
+            recvpa.removeAll()
+        }
+    }
+    
+    public func recvc(packets: [PSPacket]) {
+        let chunk = PSChunk.decode(packets)
+        recvca.append(chunk)
+        
+        if (packets.last!.more) {
+            sendraw([0x09, chunk.number])
+        } else {
+            recvm(recvca)
+            recvca.removeAll()
+        }
+    }
+    
+    public func recvm(chunks: [PSChunk]) {
+        let message = PSMessage.decode(chunks)
+
+        if (r!.hasSuffix("/")) {
+            let list = try! Directory.parseFromData(a2d([] + message.payload.dropLast()))
+
+            for entry in list.entries {
+                sendra = [r! + entry.path] + sendra
+            }
+        }
+
+        nextr()
+    }
 }
 
