@@ -17,7 +17,7 @@ struct Constants {
     }
 
     static let Perms : CBAttributePermissions = [.Readable, .Writeable]
-    static let Props : CBCharacteristicProperties = [.Read, .Write, .WriteWithoutResponse, .Notify]
+    static let Props : CBCharacteristicProperties = [.Read, .WriteWithoutResponse, .Notify]
 }
 
 let BackupRoot = NSHomeDirectory().stringByAppendingString("/.polar/backup/bt")

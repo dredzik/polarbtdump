@@ -50,7 +50,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     public func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
-        print(FAIL, "disconnected from", peripheral.name!)
+        print(error == nil ? SUCC : FAIL, "disconnected from", peripheral.name!)
         p = nil
         central.scanForPeripheralsWithServices(nil, options: nil)
     }
@@ -77,6 +77,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
         cd.value = a2d([0x0f, 0x00])
         peripheral.respondToRequest(request, withResult: .Success)
         
+        peripheral.setDesiredConnectionLatency(.Low, forCentral: request.central)
         print(SUCC, "device ready")
         dump()
     }
