@@ -15,12 +15,13 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     var cm : CBCentralManager?
     var p : CBPeripheral?
     let s = CBMutableService(type: Constants.UUIDs.Service, primary: true)
-    let cd = CBMutableCharacteristic(type: Constants.UUIDs.DataChar, properties: Constants.Props, value: nil, permissions: Constants.Perms)
-    let cn = CBMutableCharacteristic(type: Constants.UUIDs.NotiChar, properties: Constants.Props, value: nil, permissions: Constants.Perms)
+    let c1 = CBMutableCharacteristic(type: Constants.UUIDs.Char1, properties: [.WriteWithoutResponse], value: nil, permissions: [.Writeable])
+    let c2 = CBMutableCharacteristic(type: Constants.UUIDs.Char2, properties: [.WriteWithoutResponse, .Notify], value: nil, permissions: [.Readable, .Writeable])
+    let cd = CBMutableCharacteristic(type: Constants.UUIDs.CharD, properties: [.WriteWithoutResponse, .Notify, .Read], value: nil, permissions: [.Readable, .Writeable])
     
     public override init() {
         super.init()
-        s.characteristics = [cd, cn]
+        s.characteristics = [cd, c1, c2]
         pm = CBPeripheralManager(delegate: self, queue: dispatch_get_main_queue())
         cm = CBCentralManager(delegate: self, queue: dispatch_get_main_queue())
     }
@@ -35,7 +36,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     public func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-        if peripheral.name == nil || !peripheral.name!.containsString("Polar") {
+        if peripheral.name == nil || !peripheral.name!.containsString("Polar") || peripheral.name!.containsString("Polar mobile") {
             return
         }
         
@@ -67,9 +68,8 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     public func peripheralManager(peripheral: CBPeripheralManager, didAddService service: CBService, error: NSError?) {
         peripheral.startAdvertising([
             CBAdvertisementDataServiceUUIDsKey : Constants.UUIDs.Service,
-            CBAdvertisementDataLocalNameKey : "Polar mobile 666",
+            CBAdvertisementDataLocalNameKey : "Polar mobile 10148139",
             CBAdvertisementDataIsConnectable : true,
-            CBAdvertisementDataTxPowerLevelKey : 3
         ])
     }
     

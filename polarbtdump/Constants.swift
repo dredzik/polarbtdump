@@ -12,8 +12,9 @@ import Foundation
 struct Constants {
     struct UUIDs {
         static let Service = CBUUID(string: "fb005c14-9815-d766-a528-32d54cf35530")
-        static let DataChar = CBUUID(string: "fb005c16-02e7-f387-1cad-8acd2d8df0c8")
-        static let NotiChar = CBUUID(string: "fb005c19-02e7-f387-1cad-8acd2d8df0c8")
+        static let CharD = CBUUID(string: "fb005c16-02e7-f387-1cad-8acd2d8df0c8")
+        static let Char1 = CBUUID(string: "fb005c18-02e7-f387-1cad-8acd2d8df0c8")
+        static let Char2 = CBUUID(string: "fb005c19-02e7-f387-1cad-8acd2d8df0c8")
     }
 
     static let Perms : CBAttributePermissions = [.Readable, .Writeable]
