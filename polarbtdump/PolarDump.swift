@@ -69,6 +69,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
             CBAdvertisementDataServiceUUIDsKey : Constants.UUIDs.Service,
             CBAdvertisementDataLocalNameKey : "Polar mobile 666",
             CBAdvertisementDataIsConnectable : true,
+            CBAdvertisementDataTxPowerLevelKey : 3
         ])
     }
     
@@ -167,6 +168,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     public func recvp(value: [UInt8]) {
+        print(".", separator: "", terminator: "")
         let packet = PSPacket.decode(value)
         recvpa.append(packet)
         
@@ -189,14 +191,23 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     public func recvm(chunks: [PSChunk]) {
+        print()
         let message = PSMessage.decode(chunks)
+        let current = r!
+        let local = BackupRoot + current
 
-        if (r!.hasSuffix("/")) {
+        if (current.hasSuffix("/")) {
+            if (!NSFileManager.defaultManager().fileExistsAtPath(local)) {
+                try! NSFileManager.defaultManager().createDirectoryAtPath(local, withIntermediateDirectories: true, attributes: nil)
+            }
+            
             let list = try! Directory.parseFromData(a2d([] + message.payload.dropLast()))
 
             for entry in list.entries {
-                sendra = [r! + entry.path] + sendra
+                sendra = [current + entry.path] + sendra
             }
+        } else {
+            try! a2d(Array(message.payload.dropLast())).writeToFile(local, options: .AtomicWrite)
         }
 
         nextr()

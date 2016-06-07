@@ -20,5 +20,6 @@ struct Constants {
     static let Props : CBCharacteristicProperties = [.Read, .Write, .WriteWithoutResponse, .Notify]
 }
 
+let BackupRoot = NSHomeDirectory().stringByAppendingString("/.polar/backup/bt")
 let SUCC = "[+]"
 let FAIL = "[-]"
