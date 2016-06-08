@@ -190,28 +190,28 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     
     public func recvm(chunks: [PSChunk]) {
         print()
-//        let message = PSMessage.decode(chunks)
-//        let current = r!
-//        let local = BackupRoot + current
-//
-//        if (current.hasSuffix("/")) {
-//            if (!NSFileManager.defaultManager().fileExistsAtPath(local)) {
-//                try! NSFileManager.defaultManager().createDirectoryAtPath(local, withIntermediateDirectories: true, attributes: nil)
-//            }
-//            
-//            let list = try! Directory.parseFromData(a2d([] + message.payload.dropLast()))
-//
-//            for entry in list.entries {
-//                let full = current + entry.path
-//                
-//                if shouldUpdate(entry, withPath: local + entry.path) {
-//                    sendra.append(full)
-//                }
-//            }
-//        } else {
-//            try! a2d(Array(message.payload.dropLast())).writeToFile(local, options: .AtomicWrite)
-//        }
-//
+        let message = PSMessage.decode(chunks)
+        let current = r!
+        let local = BackupRoot + current
+
+        if (current.hasSuffix("/")) {
+            if (!NSFileManager.defaultManager().fileExistsAtPath(local)) {
+                try! NSFileManager.defaultManager().createDirectoryAtPath(local, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            let list = try! Directory.parseFromData(a2d([] + message.payload.dropLast()))
+
+            for entry in list.entries {
+                let full = current + entry.path
+                
+                if shouldUpdate(entry, withPath: local + entry.path) {
+                    sendra.append(full)
+                }
+            }
+        } else {
+            try! a2d(Array(message.payload.dropLast())).writeToFile(local, options: .AtomicWrite)
+        }
+
         nextr()
     }
 }
