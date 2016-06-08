@@ -27,3 +27,18 @@ func d2a(data: NSData) -> [UInt8] {
 func a2d(array: [UInt8]) -> NSData {
     return NSData(bytes: array, length: array.count)
 }
+
+func shouldUpdate(entry: Directory.Entry, withPath local: String) -> Bool {
+    if local.hasSuffix("/") {
+        return true
+    }
+    
+    if !NSFileManager.defaultManager().fileExistsAtPath(local) {
+        return true
+    }
+    
+    let remoteSize = Int(entry.size)
+    let localSize = try! NSFileManager.defaultManager().attributesOfItemAtPath(local)[NSFileSize] as! Int
+    
+    return localSize != remoteSize
+}

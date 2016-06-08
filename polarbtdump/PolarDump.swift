@@ -74,8 +74,8 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     public func peripheralManager(peripheral: CBPeripheralManager, didReceiveReadRequest request: CBATTRequest) {
-        cd.value = a2d([0x0f, 0x00])
         peripheral.respondToRequest(request, withResult: .Success)
+        cd.value = a2d([0x0f, 0x00])
         
         peripheral.setDesiredConnectionLatency(.Low, forCentral: request.central)
         print(SUCC, "device ready")
@@ -83,12 +83,11 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     public func peripheralManager(peripheral: CBPeripheralManager, didReceiveWriteRequest request: CBATTRequest) {
+        peripheral.respondToRequest(request, withResult: .Success)
         if let value = request.value {
             cd.value = value
             recvp(d2a(value))
-        }
-        
-        peripheral.respondToRequest(request, withResult: .Success)
+        }        
     }
     
     public func peripheralManager(peripheral: CBPeripheralManager, didReceiveWriteRequests requests: [CBATTRequest]) {
@@ -113,7 +112,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
         print(SUCC, "dump started")
         sendraw([0x0A, 0x00, 0x00, 0x00])
 
-        sendra.append("/")
+        sendra.append("/U/0/")
         nextr()
     }
     
@@ -130,7 +129,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     }
     
     func sendr(request: Request) {
-        print(SUCC, "downloading", request.path)
+        print(SUCC, (request.path.hasSuffix("/") ? "visiting" : "downloading"), request.path)
         
         let data = d2a(request.data())
         let message = PSMessage()
@@ -191,24 +190,28 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
     
     public func recvm(chunks: [PSChunk]) {
         print()
-        let message = PSMessage.decode(chunks)
-        let current = r!
-        let local = BackupRoot + current
-
-        if (current.hasSuffix("/")) {
-            if (!NSFileManager.defaultManager().fileExistsAtPath(local)) {
-                try! NSFileManager.defaultManager().createDirectoryAtPath(local, withIntermediateDirectories: true, attributes: nil)
-            }
-            
-            let list = try! Directory.parseFromData(a2d([] + message.payload.dropLast()))
-
-            for entry in list.entries {
-                sendra = [current + entry.path] + sendra
-            }
-        } else {
-            try! a2d(Array(message.payload.dropLast())).writeToFile(local, options: .AtomicWrite)
-        }
-
+//        let message = PSMessage.decode(chunks)
+//        let current = r!
+//        let local = BackupRoot + current
+//
+//        if (current.hasSuffix("/")) {
+//            if (!NSFileManager.defaultManager().fileExistsAtPath(local)) {
+//                try! NSFileManager.defaultManager().createDirectoryAtPath(local, withIntermediateDirectories: true, attributes: nil)
+//            }
+//            
+//            let list = try! Directory.parseFromData(a2d([] + message.payload.dropLast()))
+//
+//            for entry in list.entries {
+//                let full = current + entry.path
+//                
+//                if shouldUpdate(entry, withPath: local + entry.path) {
+//                    sendra.append(full)
+//                }
+//            }
+//        } else {
+//            try! a2d(Array(message.payload.dropLast())).writeToFile(local, options: .AtomicWrite)
+//        }
+//
         nextr()
     }
 }
