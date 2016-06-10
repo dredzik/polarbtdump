@@ -73,12 +73,16 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
         ])
     }
     
+    public func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
+        print(SUCC, "device subscribed for", characteristic.UUID.UUIDString)
+        peripheral.setDesiredConnectionLatency(.Low, forCentral: central)
+    }
+
     public func peripheralManager(peripheral: CBPeripheralManager, didReceiveReadRequest request: CBATTRequest) {
+        print(SUCC, "read requested on", request.characteristic.UUID.UUIDString)
         peripheral.respondToRequest(request, withResult: .Success)
         cd.value = a2d([0x0f, 0x00])
         
-        peripheral.setDesiredConnectionLatency(.Low, forCentral: request.central)
-        print(SUCC, "device ready")
         dump()
     }
     
@@ -120,6 +124,7 @@ public class PolarDump : NSObject, CBCentralManagerDelegate, CBPeripheralManager
         if sendra.count == 0 {
             print(SUCC, "dump finished")
             sendraw([0x0A, 0x00, 0x01, 0x08, 0x01, 0x0])
+            sendraw([0x0A, 0x00, 0x09, 0x00])
 
             return
         }
