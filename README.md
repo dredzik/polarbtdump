@@ -15,7 +15,9 @@ xcodebuild
 
 #### Run
 
-`./build/Release/polarbtdump`
+```
+./build/Release/polarbtdump
+```
 
 #### Data
 
