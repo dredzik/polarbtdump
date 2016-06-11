@@ -8,8 +8,10 @@ can be synced with the Polar Flow app on the iPhone, but I haven't tested it.
 
 #### Compile
 
-`cd polarbtdump`
-`xcodebuild`
+```
+cd polarbtdump
+xcodebuild
+```
 
 #### Run
 
