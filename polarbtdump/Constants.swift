@@ -13,8 +13,6 @@ struct Constants {
     struct UUIDs {
         static let Service = CBUUID(string: "fb005c14-9815-d766-a528-32d54cf35530")
         static let Data = CBUUID(string: "fb005c16-02e7-f387-1cad-8acd2d8df0c8")
-        static let Unknown1 = CBUUID(string: "fb005c18-02e7-f387-1cad-8acd2d8df0c8")
-        static let Unknown2 = CBUUID(string: "fb005c19-02e7-f387-1cad-8acd2d8df0c8")
     }
 
     struct Packets {
@@ -28,5 +26,3 @@ struct Constants {
 }
 
 let BackupRoot = NSHomeDirectory() + "/.polar/backup/bt"
-let SUCC = "[+]"
-let FAIL = "[-]"
