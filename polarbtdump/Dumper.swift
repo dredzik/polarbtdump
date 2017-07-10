@@ -60,8 +60,6 @@ public class Dumper: NSObject {
             $0.path = dumpCurrent!
         }
 
-        print(SUCC, "requesting", dumpCurrent!)
-
         sendRequest(request)
     }
     
