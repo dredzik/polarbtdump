@@ -18,14 +18,6 @@ func hex(data: [UInt8]) -> String {
     return result + "]"
 }
 
-func d2a(_ data: Data) -> [UInt8] {
-    return Array(data)
-}
-
-func a2d(_ array: [UInt8]) -> Data {
-    return Data(array)
-}
-
 func shouldUpdate(_ entry: Directory.Entry, withPath local: String) -> Bool {
     if local.hasSuffix("/") {
         return true

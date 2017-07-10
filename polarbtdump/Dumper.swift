@@ -91,7 +91,7 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
         print(SUCC, "read requested on", request.characteristic.uuid.uuidString)
         peripheral.respond(to: request, withResult: .success)
-        data.value = a2d([0x0f, 0x00])
+        data.value = Data([0x0f, 0x00])
         
         dump()
     }
@@ -100,7 +100,7 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
         peripheral.respond(to: request, withResult: .success)
         if let value = request.value {
             data.value = value
-            recvPacket(d2a(value))
+            recvPacket(Array(value))
         }        
     }
     
@@ -171,7 +171,7 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     
     public func sendPacket() {
         while sendPackets.count > 0 {
-            if !peripheralManager!.updateValue(a2d(sendPackets[0]), for: data, onSubscribedCentrals: nil) {
+            if !peripheralManager!.updateValue(Data(sendPackets[0]), for: data, onSubscribedCentrals: nil) {
                 break
             }
             
@@ -226,7 +226,7 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     public func recvDirectory(_ message: PSMessage) {
         let remoteDirectory = dumpCurrent!
         let localDirectory = BackupRoot + remoteDirectory
-        let content = a2d(Array(message.payload.dropLast()))
+        let content = Data(message.payload.dropLast())
         let fileManager = FileManager.default
 
         if !fileManager.fileExists(atPath: localDirectory) {
@@ -248,7 +248,7 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     public func recvFile(_ message: PSMessage) {
         let remoteFile = dumpCurrent!
         let localFile = BackupRoot + remoteFile
-        let content = a2d(Array(message.payload.dropLast()))
+        let content = Data(message.payload.dropLast())
 
         try! content.write(to: URL(string: "file://" + localFile)!)
     }

@@ -45,7 +45,7 @@ public class PSMessage: NSObject {
     init(_ request: Request) {
         super.init()
 
-        let data = try! d2a(request.serializedData())
+        let data = try! Array(request.serializedData())
 
         header = [UInt8(data.count), 0x00]
         payload = data + [0x00]
