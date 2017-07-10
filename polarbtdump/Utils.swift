@@ -8,16 +8,6 @@
 
 import Foundation
 
-func hex(data: [UInt8]) -> String {
-    var result = "["
-    
-    data.forEach({body in
-        result += String(format: "0x%02X,", body)
-    })
-    
-    return result + "]"
-}
-
 func shouldUpdate(_ entry: Directory.Entry, withPath local: String) -> Bool {
     if local.hasSuffix("/") {
         return true

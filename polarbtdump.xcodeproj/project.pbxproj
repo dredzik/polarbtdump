@@ -69,6 +69,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		88B9D7431F13D028005AE084 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				88097DE11F13AA010035ABB3 /* Messages.proto */,
+				88097DF01F13AD260035ABB3 /* Messages.pb.swift */,
+				88097DE31F13AA010035ABB3 /* PSChunk.swift */,
+				88097DE41F13AA010035ABB3 /* PSMessage.swift */,
+				88097DE51F13AA010035ABB3 /* PSPacket.swift */,
+			);
+			name = Protocol;
+			sourceTree = "<group>";
+		};
 		88C463C71F13A94000D93034 = {
 			isa = PBXGroup;
 			children = (
@@ -90,13 +102,9 @@
 		88C463D21F13A94000D93034 /* polarbtdump */ = {
 			isa = PBXGroup;
 			children = (
+				88B9D7431F13D028005AE084 /* Protocol */,
 				88097DDE1F13AA010035ABB3 /* Constants.swift */,
 				88097DDF1F13AA010035ABB3 /* Dumper.swift */,
-				88097DE11F13AA010035ABB3 /* Messages.proto */,
-				88097DF01F13AD260035ABB3 /* Messages.pb.swift */,
-				88097DE31F13AA010035ABB3 /* PSChunk.swift */,
-				88097DE41F13AA010035ABB3 /* PSMessage.swift */,
-				88097DE51F13AA010035ABB3 /* PSPacket.swift */,
 				88097DE61F13AA010035ABB3 /* Utils.swift */,
 				88C463D31F13A94000D93034 /* AppDelegate.swift */,
 				88C463D71F13A94000D93034 /* Assets.xcassets */,
