@@ -114,7 +114,6 @@ public class Dumper: NSObject {
         if packets.last!.more {
             sendRaw([0x09, chunk.number])
         } else {
-            print()
             recvMessage(recvChunks)
             recvChunks.removeAll()
         }
