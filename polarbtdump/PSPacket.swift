@@ -40,15 +40,15 @@ public enum PSPacketType {
 
 public class PSPacket : NSObject {
     
-    var sequence : UInt8 = 0
-    var first : Bool = false
-    var error : Bool = false
-    var notification : Bool = false
-    var more : Bool = false
-    var type : PSPacketType = .Normal
-    var payload : [UInt8] = [UInt8]()
+    var sequence: UInt8 = 0
+    var first: Bool = false
+    var error: Bool = false
+    var notification: Bool = false
+    var more: Bool = false
+    var type: PSPacketType = .Normal
+    var payload: [UInt8] = [UInt8]()
     
-    public static func decode(_ raw: [UInt8]) -> PSPacket {
+    public static func decode(_ raw: Data) -> PSPacket {
         let result = PSPacket()
         
         result.sequence = raw[0] >> 4
@@ -64,7 +64,7 @@ public class PSPacket : NSObject {
     }
     
     public static func encode(_ packet: PSPacket) -> [UInt8] {
-        var header : UInt8 = packet.sequence << 4
+        var header: UInt8 = packet.sequence << 4
         
         if (packet.first) { header += FLAG_FIRST }
         if (packet.error) { header += FLAG_ERROR }

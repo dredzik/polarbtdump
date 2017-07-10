@@ -60,6 +60,8 @@ public class Dumper: NSObject {
             $0.path = dumpCurrent!
         }
 
+        print(SUCC, "requesting", dumpCurrent!)
+
         sendRequest(request)
     }
     
@@ -97,7 +99,7 @@ public class Dumper: NSObject {
     }
     
     // Receiving
-    public func recvPacket(_ value: [UInt8]) {
+    public func recvPacket(_ value: Data) {
         let packet = PSPacket.decode(value)
         recvPackets.append(packet)
         

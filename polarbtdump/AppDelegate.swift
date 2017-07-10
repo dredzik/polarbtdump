@@ -101,7 +101,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, CBCentralManagerDelegate, CB
         peripheral.respond(to: request, withResult: .success)
         if let value = request.value {
             data.value = value
-            dumper?.recvPacket(Array(value))
+            dumper?.recvPacket(value)
         }
     }
 
