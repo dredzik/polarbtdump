@@ -1,0 +1,98 @@
+syntax = "proto2";
+
+message Request {
+    enum Type {
+        READ = 0;
+        WRITE = 1;
+        DELETE = 3;
+    }
+
+    optional Type type = 1;
+    optional string path = 2;
+}
+
+message Directory {
+    message Entry {
+        optional string path = 1;
+        optional uint32 size = 2;
+        optional PolarDateTime created = 3;
+        optional PolarDateTime modified = 4;
+        optional PolarDateTime unknown = 5;
+    }
+
+    repeated Entry entries = 1;
+}
+
+message SessionData {
+    message Label {
+        optional string name = 1;
+    }
+
+    optional PolarDateTime start = 1;
+    optional PolarDateTime end = 20;
+    optional uint32 exerciseCount = 2;
+    optional string device = 3;
+    optional string model = 4;
+    optional PolarTime duration = 5;
+    optional float distance = 6;
+    optional uint32 calories = 7;
+    optional Heartrate heartrate = 8;
+    optional PolarTime heartrateDuration = 9;
+    optional TrainingLoad trainingLoad = 10;
+    optional Label label = 11;
+}
+
+message ExerciseData {
+    message Sport {
+        optional uint64 value = 1;
+    }
+
+    message RunningIndex {
+        optional uint32 value = 1;
+        optional PolarTime duration = 2;
+    }
+
+    optional PolarDateTime start = 1;
+    optional PolarTime duration = 2;
+    optional Sport sport = 3;
+    optional float distance = 4;
+    optional uint32 calories = 5;
+    optional TrainingLoad trainingLoad = 6;
+    optional RunningIndex index = 9;
+    optional float ascent = 10;
+    optional float descent = 11;
+}
+
+
+message Heartrate {
+    optional uint32 average = 1;
+    optional uint32 maximum = 2;
+    optional uint32 minimum = 3;
+}
+
+message TrainingLoad {
+    optional uint32 value = 1;
+    optional PolarTime recovery = 2;
+    optional uint32 carbs = 3;
+    optional uint32 protein = 4;
+    optional uint32 fat = 5;
+}
+
+message PolarDateTime {
+    optional PolarDate date = 1;
+    optional PolarTime time = 2;
+    optional uint32 timezone = 3;
+}
+
+message PolarDate {
+    optional uint32 year = 1;
+    optional uint32 month = 2;
+    optional uint32 day = 3;
+}
+
+message PolarTime {
+    optional uint32 hour = 1;
+    optional uint32 minute = 2;
+    optional uint32 second = 3;
+    optional uint32 milisecond = 4;
+}
