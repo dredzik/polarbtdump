@@ -74,8 +74,8 @@
 			children = (
 				88097DE11F13AA010035ABB3 /* Messages.proto */,
 				88097DF01F13AD260035ABB3 /* Messages.pb.swift */,
-				88097DE31F13AA010035ABB3 /* PSChunk.swift */,
 				88097DE41F13AA010035ABB3 /* PSMessage.swift */,
+				88097DE31F13AA010035ABB3 /* PSChunk.swift */,
 				88097DE51F13AA010035ABB3 /* PSPacket.swift */,
 			);
 			name = Protocol;

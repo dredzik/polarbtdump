@@ -46,7 +46,7 @@ public class PSPacket : NSObject {
     var notification: Bool = false
     var more: Bool = false
     var type: PSPacketType = .Normal
-    var payload: [UInt8] = [UInt8]()
+    var payload: Data = Data()
     
     public static func decode(_ raw: Data) -> PSPacket {
         let result = PSPacket()
@@ -56,14 +56,14 @@ public class PSPacket : NSObject {
         result.error = raw[0] & FLAG_ERROR > 0
         result.notification = raw[0] & FLAG_NOTIFICATION > 0
         result.more = raw[0] & FLAG_MORE > 0
-        result.payload = Array(raw[1...raw.count-1])
+        result.payload = Data(raw[1...raw.count-1])
         
         result.type = PSPacketType.fromPacket(result)
 
         return result
     }
     
-    public static func encode(_ packet: PSPacket) -> [UInt8] {
+    public static func encode(_ packet: PSPacket) -> Data {
         var header: UInt8 = packet.sequence << 4
         
         if (packet.first) { header += FLAG_FIRST }
@@ -71,6 +71,6 @@ public class PSPacket : NSObject {
         if (packet.notification) { header += FLAG_NOTIFICATION }
         if (packet.more) { header += FLAG_MORE }
 
-        return [header] + packet.payload
+        return Data([header]) + packet.payload
     }
 }

@@ -23,7 +23,7 @@ public class Dumper: NSObject {
     var recvChunks = [PSChunk]()
     var recvPackets = [PSPacket]()
     var sendChunks = [PSChunk]()
-    var sendPackets = [[UInt8]]()
+    var sendPackets = [Data]()
 
     init(device: CBPeripheral, delegate: DumperDelegate) {
         self.device = device
@@ -85,7 +85,7 @@ public class Dumper: NSObject {
     
     public func sendPacket() {
         while sendPackets.count > 0 {
-            if !delegate.updateValue(Data(sendPackets[0])) {
+            if !delegate.updateValue(sendPackets[0]) {
                 break
             }
             
@@ -93,7 +93,7 @@ public class Dumper: NSObject {
         }
     }
     
-    public func sendRaw(_ value: [UInt8]) {
+    public func sendRaw(_ value: Data) {
         sendPackets.append(value)
         sendPacket()
     }
@@ -114,7 +114,7 @@ public class Dumper: NSObject {
         recvChunks.append(chunk)
         
         if packets.last!.more {
-            sendRaw([0x09, chunk.number])
+            sendRaw(Data([0x09, chunk.number]))
         } else {
             recvMessage(recvChunks)
             recvChunks.removeAll()

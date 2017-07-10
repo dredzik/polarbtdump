@@ -18,13 +18,13 @@ struct Constants {
     }
 
     struct Packets {
-        static let SyncBegin : [UInt8] = [0x0A, 0x00, 0x00, 0x00]
-        static let SyncEnd : [UInt8] = [0x0A, 0x00, 0x01, 0x08, 0x01, 0x0]
-        static let SessionEnd : [UInt8] = [0x0A, 0x00, 0x09, 0x00]
+        static let SyncBegin = Data([0x0A, 0x00, 0x00, 0x00])
+        static let SyncEnd = Data([0x0A, 0x00, 0x01, 0x08, 0x01, 0x0])
+        static let SessionEnd = Data([0x0A, 0x00, 0x09, 0x00])
     }
 
-    static let Perms : CBAttributePermissions = [.readable, .writeable]
-    static let Props : CBCharacteristicProperties = [.read, .writeWithoutResponse, .notify]
+    static let Perms: CBAttributePermissions = [.readable, .writeable]
+    static let Props: CBCharacteristicProperties = [.read, .writeWithoutResponse, .notify]
 }
 
 let BackupRoot = NSHomeDirectory() + "/.polar/backup/bt"

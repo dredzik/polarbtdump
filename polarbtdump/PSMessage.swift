@@ -35,8 +35,8 @@ public class PSMessage: NSObject {
     var type: PSPacketType = .Normal
     var subtype: PSMessageType = .Data
     var notification: Bool = false
-    var header: [UInt8] = [0x00, 0x00]
-    var payload: [UInt8] = [UInt8]()
+    var header: Data = Data([0x00, 0x00])
+    var payload: Data = Data()
 
     public override init() {
         super.init()
@@ -45,9 +45,9 @@ public class PSMessage: NSObject {
     init(_ request: Request) {
         super.init()
 
-        let data = try! Array(request.serializedData())
+        let data = try! request.serializedData()
 
-        header = [UInt8(data.count), 0x00]
+        header = Data([UInt8(data.count), 0x00])
         payload = data + [0x00]
     }
 
@@ -61,7 +61,7 @@ public class PSMessage: NSObject {
             return result
         }
 
-        result.header = Array(chunks.first!.payload[0...1])
+        result.header = Data(chunks.first!.payload[0...1])
         result.subtype = PSMessageType.fromMessage(result)
 
         for chunk in chunks {
@@ -84,7 +84,7 @@ public class PSMessage: NSObject {
             let chunk = PSChunk()
             let end = data.count > CHUNK_PAYLOAD_SIZE ? CHUNK_PAYLOAD_SIZE : data.count
             
-            chunk.payload = Array(data[0...end-1])
+            chunk.payload = Data(data[0...end-1])
             data.removeFirst(end)
             
             chunk.number = number

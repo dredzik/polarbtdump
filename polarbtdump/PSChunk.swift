@@ -12,11 +12,11 @@ let CHUNK_PAYLOAD_SIZE = 303
 
 public class PSChunk : NSObject {
     
-    var type : PSPacketType = .Normal
-    var notification : Bool = false
-    var more : Bool = false
-    var number : UInt8 = 0
-    var payload : [UInt8] = [UInt8]()
+    var type: PSPacketType = .Normal
+    var notification: Bool = false
+    var more: Bool = false
+    var number: UInt8 = 0
+    var payload: Data = Data()
     
     public static func decode(_ packets: [PSPacket]) -> PSChunk {
         let result = PSChunk()
@@ -50,7 +50,7 @@ public class PSChunk : NSObject {
             let end = data.count > PACKET_PAYLOAD_SIZE ? PACKET_PAYLOAD_SIZE : data.count
             
             packet.more = chunk.more
-            packet.payload = Array(data[0...end-1])
+            packet.payload = Data(data[0...end-1])
             data.removeFirst(end)
             
             result.append(packet)
