@@ -13,6 +13,7 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     
     var centralManager: CBCentralManager?
     var peripheralManager: CBPeripheralManager?
+    var notificationCenter = NSUserNotificationCenter.default
 
     var device: CBPeripheral?
 
@@ -55,11 +56,19 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     }
 
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print(SUCC, "connected to", peripheral.name!)
+        let notification = NSUserNotification()
+        notification.title = "Device connected"
+        notification.informativeText = peripheral.name
+        notificationCenter.removeAllDeliveredNotifications()
+        notificationCenter.deliver(notification)
     }
 
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        print(error == nil ? SUCC : FAIL, "disconnected from", peripheral.name!)
+        let notification = NSUserNotification()
+        notification.title = "Device disconnected"
+        notification.informativeText = peripheral.name
+        notificationCenter.removeAllDeliveredNotifications()
+        notificationCenter.deliver(notification)
 
         device = nil
 
@@ -84,12 +93,10 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
-        print(SUCC, "device subscribed for", characteristic.uuid.uuidString)
         peripheral.setDesiredConnectionLatency(.low, for: central)
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
-        print(SUCC, "read requested on", request.characteristic.uuid.uuidString)
         peripheral.respond(to: request, withResult: .success)
         data.value = Data([0x0f, 0x00])
         
@@ -123,7 +130,11 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     var sendPackets = [[UInt8]]()
     
     func dump() {
-        print(SUCC, "dump started")
+        let notification = NSUserNotification()
+        notification.title = "Sync started"
+        notification.informativeText = device?.name
+        notificationCenter.removeAllDeliveredNotifications()
+        notificationCenter.deliver(notification)
         sendRaw(Constants.Packets.SyncBegin)
 
         dumpPaths.append("/U/0/")
@@ -132,7 +143,11 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     
     func dumpNext() {
         if dumpPaths.count == 0 {
-            print(SUCC, "dump finished")
+            let notification = NSUserNotification()
+            notification.title = "Sync finished"
+            notification.informativeText = device?.name
+            notificationCenter.removeAllDeliveredNotifications()
+            notificationCenter.deliver(notification)
 
             sendRaw(Constants.Packets.SyncEnd)
             sendRaw(Constants.Packets.SessionEnd)
@@ -151,8 +166,6 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     
     // Sending
     func sendRequest(_ request: Request) {
-        print(SUCC, (request.path.hasSuffix("/") ? "visiting" : "downloading"), request.path)
-        
         let message = PSMessage(request)
         sendChunks = PSMessage.encode(message)
 
@@ -186,9 +199,6 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
     
     // Receiving
     public func recvPacket(_ value: [UInt8]) {
-        print(".", separator: "", terminator: "")
-        fflush(__stdoutp)
-
         let packet = PSPacket.decode(value)
         recvPackets.append(packet)
         
