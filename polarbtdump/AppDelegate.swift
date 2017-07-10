@@ -12,7 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     var dumper: Dumper!
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        var notification = NSUserNotification()
+        let notification = NSUserNotification()
         notification.title = "polarbtdump started"
         notification.informativeText = "Press sync button on your Polar device to synchronize with this computer."
         NSUserNotificationCenter.default.deliver(notification)
@@ -22,4 +22,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
     }
 }
-

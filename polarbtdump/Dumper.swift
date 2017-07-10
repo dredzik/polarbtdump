@@ -9,12 +9,12 @@
 import CoreBluetooth
 import Foundation
 
-public class Dumper : NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate {
+public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate {
     
-    var centralManager : CBCentralManager?
-    var peripheralManager : CBPeripheralManager?
+    var centralManager: CBCentralManager?
+    var peripheralManager: CBPeripheralManager?
 
-    var device : CBPeripheral?
+    var device: CBPeripheral?
 
     let service = CBMutableService(type: Constants.UUIDs.Service, primary: true)
     let data = CBMutableCharacteristic(type: Constants.UUIDs.Data, properties: Constants.Props, value: nil, permissions: Constants.Perms)
@@ -115,7 +115,7 @@ public class Dumper : NSObject, CBCentralManagerDelegate, CBPeripheralManagerDel
     }
     
     // Dumper
-    var dumpCurrent : String?
+    var dumpCurrent: String?
     var dumpPaths = [String]()
     var recvChunks = [PSChunk]()
     var recvPackets = [PSPacket]()
