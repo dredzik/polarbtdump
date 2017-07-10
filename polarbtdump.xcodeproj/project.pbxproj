@@ -16,7 +16,6 @@
 		88097DEF1F13AA010035ABB3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DE61F13AA010035ABB3 /* Utils.swift */; };
 		88097DF11F13AD260035ABB3 /* Messages.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DF01F13AD260035ABB3 /* Messages.pb.swift */; };
 		88C463D41F13A94000D93034 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C463D31F13A94000D93034 /* AppDelegate.swift */; };
-		88C463D61F13A94000D93034 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C463D51F13A94000D93034 /* ViewController.swift */; };
 		88C463D81F13A94000D93034 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88C463D71F13A94000D93034 /* Assets.xcassets */; };
 		88C463DB1F13A94000D93034 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C463D91F13A94000D93034 /* Main.storyboard */; };
 		BF894BB64C73C66EDE4F50CD /* Pods_polarbtdump.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C12C0B35EDBBD4653041164 /* Pods_polarbtdump.framework */; };
@@ -34,7 +33,6 @@
 		88097DF01F13AD260035ABB3 /* Messages.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.pb.swift; sourceTree = "<group>"; };
 		88C463D01F13A94000D93034 /* polarbtdump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = polarbtdump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C463D31F13A94000D93034 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		88C463D51F13A94000D93034 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		88C463D71F13A94000D93034 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88C463DA1F13A94000D93034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		88C463DC1F13A94000D93034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,7 +99,6 @@
 				88097DE51F13AA010035ABB3 /* PSPacket.swift */,
 				88097DE61F13AA010035ABB3 /* Utils.swift */,
 				88C463D31F13A94000D93034 /* AppDelegate.swift */,
-				88C463D51F13A94000D93034 /* ViewController.swift */,
 				88C463D71F13A94000D93034 /* Assets.xcassets */,
 				88C463D91F13A94000D93034 /* Main.storyboard */,
 				88C463DC1F13A94000D93034 /* Info.plist */,
@@ -238,7 +235,6 @@
 				88097DED1F13AA010035ABB3 /* PSMessage.swift in Sources */,
 				88097DEC1F13AA010035ABB3 /* PSChunk.swift in Sources */,
 				88097DEF1F13AA010035ABB3 /* Utils.swift in Sources */,
-				88C463D61F13A94000D93034 /* ViewController.swift in Sources */,
 				88C463D41F13A94000D93034 /* AppDelegate.swift in Sources */,
 				88097DE71F13AA010035ABB3 /* Constants.swift in Sources */,
 			);
