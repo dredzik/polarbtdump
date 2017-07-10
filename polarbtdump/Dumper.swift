@@ -19,13 +19,11 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
 
     let service = CBMutableService(type: Constants.UUIDs.Service, primary: true)
     let data = CBMutableCharacteristic(type: Constants.UUIDs.Data, properties: Constants.Props, value: nil, permissions: Constants.Perms)
-    let unknown1 = CBMutableCharacteristic(type: Constants.UUIDs.Unknown1, properties: Constants.Props, value: nil, permissions: Constants.Perms)
-    let unknown2 = CBMutableCharacteristic(type: Constants.UUIDs.Unknown2, properties: Constants.Props, value: nil, permissions: Constants.Perms)
-    
+
     public override init() {
         super.init()
 
-        service.characteristics = [data, unknown1, unknown2]
+        service.characteristics = [data]
 
         centralManager = CBCentralManager(delegate: self, queue: nil)
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
@@ -45,7 +43,7 @@ public class Dumper: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDele
             return
         }
 
-        if name.range(of: "Polar") == nil || name.range(of: "Polar mobile") != nil {
+        if !name.hasPrefix("Polar") || name.hasPrefix("Polar mobile") {
             return
         }
         
