@@ -13,7 +13,7 @@
 		88097DEC1F13AA010035ABB3 /* PSChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DE31F13AA010035ABB3 /* PSChunk.swift */; };
 		88097DED1F13AA010035ABB3 /* PSMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DE41F13AA010035ABB3 /* PSMessage.swift */; };
 		88097DEE1F13AA010035ABB3 /* PSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DE51F13AA010035ABB3 /* PSPacket.swift */; };
-		88097DEF1F13AA010035ABB3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DE61F13AA010035ABB3 /* Utils.swift */; };
+		88097DEF1F13AA010035ABB3 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DE61F13AA010035ABB3 /* Util.swift */; };
 		88097DF11F13AD260035ABB3 /* Messages.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DF01F13AD260035ABB3 /* Messages.pb.swift */; };
 		88C463D41F13A94000D93034 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C463D31F13A94000D93034 /* AppDelegate.swift */; };
 		88C463D81F13A94000D93034 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88C463D71F13A94000D93034 /* Assets.xcassets */; };
@@ -29,7 +29,7 @@
 		88097DE31F13AA010035ABB3 /* PSChunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSChunk.swift; sourceTree = "<group>"; };
 		88097DE41F13AA010035ABB3 /* PSMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSMessage.swift; sourceTree = "<group>"; };
 		88097DE51F13AA010035ABB3 /* PSPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPacket.swift; sourceTree = "<group>"; };
-		88097DE61F13AA010035ABB3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		88097DE61F13AA010035ABB3 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		88097DF01F13AD260035ABB3 /* Messages.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.pb.swift; sourceTree = "<group>"; };
 		88C463D01F13A94000D93034 /* polarbtdump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = polarbtdump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C463D31F13A94000D93034 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 				88B9D7431F13D028005AE084 /* Protocol */,
 				88097DDE1F13AA010035ABB3 /* Constants.swift */,
 				88097DDF1F13AA010035ABB3 /* Dumper.swift */,
-				88097DE61F13AA010035ABB3 /* Utils.swift */,
+				88097DE61F13AA010035ABB3 /* Util.swift */,
 				88C463D31F13A94000D93034 /* AppDelegate.swift */,
 				88C463D71F13A94000D93034 /* Assets.xcassets */,
 				88C463D91F13A94000D93034 /* Main.storyboard */,
@@ -242,7 +242,7 @@
 				88097DEE1F13AA010035ABB3 /* PSPacket.swift in Sources */,
 				88097DED1F13AA010035ABB3 /* PSMessage.swift in Sources */,
 				88097DEC1F13AA010035ABB3 /* PSChunk.swift in Sources */,
-				88097DEF1F13AA010035ABB3 /* Utils.swift in Sources */,
+				88097DEF1F13AA010035ABB3 /* Util.swift in Sources */,
 				88C463D41F13A94000D93034 /* AppDelegate.swift in Sources */,
 				88097DE71F13AA010035ABB3 /* Constants.swift in Sources */,
 			);

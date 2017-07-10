@@ -18,7 +18,7 @@ public class Dumper: NSObject {
 
     var delegate: DumperDelegate
     var device: CBPeripheral
-    var dumpCurrent: String?
+    var current: String?
     var dumpPaths = [String]()
     var recvChunks = [PSChunk]()
     var recvPackets = [PSPacket]()
@@ -54,10 +54,10 @@ public class Dumper: NSObject {
             return
         }
         
-        dumpCurrent = dumpPaths.removeFirst()
+        current = dumpPaths.removeFirst()
         let request = Request.with {
             $0.type = .read
-            $0.path = dumpCurrent!
+            $0.path = current!
         }
 
         sendRequest(request)
@@ -122,7 +122,7 @@ public class Dumper: NSObject {
     public func recvMessage(_ chunks: [PSChunk]) {
         let message = PSMessage.decode(chunks)
 
-        if dumpCurrent!.hasSuffix("/") {
+        if current!.hasSuffix("/") {
             recvDirectory(message)
         } else {
             recvFile(message)
@@ -132,33 +132,34 @@ public class Dumper: NSObject {
     }
 
     public func recvDirectory(_ message: PSMessage) {
-        let remoteDirectory = dumpCurrent!
-        let localDirectory = BackupRoot + remoteDirectory
-        let content = Data(message.payload.dropLast())
-        let fileManager = FileManager.default
-
-        if !fileManager.fileExists(atPath: localDirectory) {
-            try! fileManager.createDirectory(atPath: localDirectory, withIntermediateDirectories: true, attributes: nil)
+        guard let path = current else {
+            return
         }
+
+        let url = PBTDUrlForPath(path)
+        let content = Data(message.payload.dropLast())
 
         let list = try! Directory(serializedData: content)
 
         for entry in list.entries {
-            let remoteEntry = remoteDirectory + entry.path
-            let localEntry = localDirectory + entry.path
+            let childPath = path + entry.path
+            let childUrl = PBTDUrlForPath(childPath)
 
-            if shouldUpdate(entry, withPath: localEntry) {
-                dumpPaths.append(remoteEntry)
+            if PBTDShouldUpdate(entry, url: childUrl) {
+                dumpPaths.append(childPath)
             }
         }
     }
 
     public func recvFile(_ message: PSMessage) {
-        let remoteFile = dumpCurrent!
-        let localFile = BackupRoot + remoteFile
+        guard let path = current else {
+            return
+        }
+
+        let url = PBTDUrlForPath(path)
         let content = Data(message.payload.dropLast())
 
-        try! content.write(to: URL(string: "file://" + localFile)!)
+        try! content.write(to: url)
     }
 }
 
