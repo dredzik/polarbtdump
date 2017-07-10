@@ -47,8 +47,6 @@ func PBTDUrlForPath(_ path: String) -> URL {
         try! manager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
     }
 
-    print(url)
-
     return url
 }
 

@@ -18,8 +18,8 @@ public class Dumper: NSObject {
 
     var delegate: DumperDelegate
     var device: CBPeripheral
-    var current: String?
-    var dumpPaths = [String]()
+    var currentPath: String?
+    var pathsToVisit = [String]()
     var recvChunks = [PSChunk]()
     var recvPackets = [PSPacket]()
     var sendChunks = [PSChunk]()
@@ -37,12 +37,12 @@ public class Dumper: NSObject {
         NSUserNotificationCenter.default.deliver(notification)
         sendRaw(Constants.Packets.SyncBegin)
 
-        dumpPaths.append("/U/0/")
+        pathsToVisit.append("/U/0/")
         dumpNext()
     }
     
     func dumpNext() {
-        if dumpPaths.count == 0 {
+        if pathsToVisit.count == 0 {
             let notification = NSUserNotification()
             notification.title = "Sync finished"
             notification.informativeText = device.name
@@ -54,10 +54,10 @@ public class Dumper: NSObject {
             return
         }
         
-        current = dumpPaths.removeFirst()
+        currentPath = pathsToVisit.removeFirst()
         let request = Request.with {
             $0.type = .read
-            $0.path = current!
+            $0.path = currentPath!
         }
 
         sendRequest(request)
@@ -122,7 +122,7 @@ public class Dumper: NSObject {
     public func recvMessage(_ chunks: [PSChunk]) {
         let message = PSMessage.decode(chunks)
 
-        if current!.hasSuffix("/") {
+        if currentPath!.hasSuffix("/") {
             recvDirectory(message)
         } else {
             recvFile(message)
@@ -132,7 +132,7 @@ public class Dumper: NSObject {
     }
 
     public func recvDirectory(_ message: PSMessage) {
-        guard let path = current else {
+        guard let path = currentPath else {
             return
         }
 
@@ -146,13 +146,13 @@ public class Dumper: NSObject {
             let childUrl = PBTDUrlForPath(childPath)
 
             if PBTDShouldUpdate(entry, url: childUrl) {
-                dumpPaths.append(childPath)
+                pathsToVisit.append(childPath)
             }
         }
     }
 
     public func recvFile(_ message: PSMessage) {
-        guard let path = current else {
+        guard let path = currentPath else {
             return
         }
 
