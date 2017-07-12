@@ -6,34 +6,34 @@
 //  Copyright © 2016 Adam Kuczyński. All rights reserved.
 //
 
-import CoreBluetooth
 import Foundation
 
 public protocol DumperDelegate {
 
-    func updateValue(_ value: Data) -> Bool
+    func updateValue(_ value: Data, forCentral identifier: UUID) -> Bool
 }
 
 public class Dumper: NSObject {
 
-    var delegate: DumperDelegate
-    var device: CBPeripheral
-    var currentPath: String?
-    var pathsToVisit = [String]()
-    var recvChunks = [PSChunk]()
-    var recvPackets = [PSPacket]()
-    var sendChunks = [PSChunk]()
-    var sendPackets = [Data]()
+    private var delegate: DumperDelegate
+    private var identifier: UUID
 
-    init(device: CBPeripheral, delegate: DumperDelegate) {
-        self.device = device
+    private var currentPath: String?
+    private var pathsToVisit = [String]()
+    private var recvChunks = [PSChunk]()
+    private var recvPackets = [PSPacket]()
+    private var sendChunks = [PSChunk]()
+    private var sendPackets = [Data]()
+
+    init(_ identifier: UUID, delegate: DumperDelegate) {
         self.delegate = delegate
+        self.identifier = identifier
     }
     
-    func dump() {
+    public func dump() {
         let notification = NSUserNotification()
         notification.title = "Sync started"
-        notification.informativeText = device.name
+        notification.informativeText = identifier.description
         NSUserNotificationCenter.default.deliver(notification)
         sendRaw(Constants.Packets.SyncBegin)
 
@@ -41,11 +41,11 @@ public class Dumper: NSObject {
         dumpNext()
     }
     
-    func dumpNext() {
+    private func dumpNext() {
         if pathsToVisit.count == 0 {
             let notification = NSUserNotification()
             notification.title = "Sync finished"
-            notification.informativeText = device.name
+            notification.informativeText = identifier.description
             NSUserNotificationCenter.default.deliver(notification)
 
             sendRaw(Constants.Packets.SyncEnd)
@@ -64,14 +64,14 @@ public class Dumper: NSObject {
     }
     
     // Sending
-    func sendRequest(_ request: Request) {
+    private func sendRequest(_ request: Request) {
         let message = PSMessage(request)
         sendChunks = PSMessage.encode(message)
 
         sendChunk()
     }
     
-    public func sendChunk() {
+    private func sendChunk() {
         let chunk = sendChunks.removeFirst()
 
         for packet in PSChunk.encode(chunk) {
@@ -83,7 +83,7 @@ public class Dumper: NSObject {
     
     public func sendPacket() {
         while sendPackets.count > 0 {
-            if !delegate.updateValue(sendPackets[0]) {
+            if !delegate.updateValue(sendPackets[0], forCentral: identifier) {
                 break
             }
             
@@ -91,7 +91,7 @@ public class Dumper: NSObject {
         }
     }
     
-    public func sendRaw(_ value: Data) {
+    private func sendRaw(_ value: Data) {
         sendPackets.append(value)
         sendPacket()
     }
@@ -107,7 +107,7 @@ public class Dumper: NSObject {
         }
     }
     
-    public func recvChunk(_ packets: [PSPacket]) {
+    private func recvChunk(_ packets: [PSPacket]) {
         let chunk = PSChunk.decode(packets)
         recvChunks.append(chunk)
         
@@ -119,7 +119,7 @@ public class Dumper: NSObject {
         }
     }
     
-    public func recvMessage(_ chunks: [PSChunk]) {
+    private func recvMessage(_ chunks: [PSChunk]) {
         let message = PSMessage.decode(chunks)
 
         if currentPath!.hasSuffix("/") {
@@ -131,19 +131,19 @@ public class Dumper: NSObject {
         dumpNext()
     }
 
-    public func recvDirectory(_ message: PSMessage) {
+    private func recvDirectory(_ message: PSMessage) {
         guard let path = currentPath else {
             return
         }
 
-        let url = PBTDUrlForPath(path)
+        let url = PBTDUrlForPath(path, forDevice: identifier)
         let content = Data(message.payload.dropLast())
 
         let list = try! Directory(serializedData: content)
 
         for entry in list.entries {
             let childPath = path + entry.path
-            let childUrl = PBTDUrlForPath(childPath)
+            let childUrl = PBTDUrlForPath(childPath, forDevice: identifier)
 
             if PBTDShouldUpdate(entry, url: childUrl) {
                 pathsToVisit.append(childPath)
@@ -151,12 +151,12 @@ public class Dumper: NSObject {
         }
     }
 
-    public func recvFile(_ message: PSMessage) {
+    private func recvFile(_ message: PSMessage) {
         guard let path = currentPath else {
             return
         }
 
-        let url = PBTDUrlForPath(path)
+        let url = PBTDUrlForPath(path, forDevice: identifier)
         let content = Data(message.payload.dropLast())
 
         try! content.write(to: url)

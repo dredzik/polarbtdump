@@ -17,7 +17,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, CBCentralManagerDelegate, CB
     let service = CBMutableService(type: Constants.UUIDs.Service, primary: true)
     let data = CBMutableCharacteristic(type: Constants.UUIDs.Data, properties: Constants.Props, value: nil, permissions: Constants.Perms)
 
-    var dumper: Dumper?
+    var centrals: [UUID : CBCentral] = [:]
+    var peripherals: [UUID : CBPeripheral] = [:]
+
+    var dumpers: [UUID : Dumper] = [:]
 
     // MARK: NSApplicationDelegate
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -45,10 +48,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, CBCentralManagerDelegate, CB
             return
         }
 
-        dumper = Dumper(device: peripheral, delegate: self)
+        let identifier = peripheral.identifier
+        peripherals[identifier] = peripheral
 
         central.stopScan()
-        central.connect(peripheral, options: nil)
+        central.connect(peripherals[identifier]! , options: nil)
     }
 
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -56,6 +60,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, CBCentralManagerDelegate, CB
         notification.title = "Device connected"
         notification.informativeText = peripheral.name
         NSUserNotificationCenter.default.deliver(notification)
+
+        let identifier = peripheral.identifier
+        dumpers[identifier] = Dumper(identifier, delegate: self)
     }
 
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -64,7 +71,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, CBCentralManagerDelegate, CB
         notification.informativeText = peripheral.name
         NSUserNotificationCenter.default.deliver(notification)
 
-        dumper = nil
+        let identifier = peripheral.identifier
+        dumpers.removeValue(forKey: identifier)
+        peripherals.removeValue(forKey: identifier)
 
         central.scanForPeripherals(withServices: nil, options: nil)
     }
@@ -88,20 +97,31 @@ class AppDelegate: NSObject, NSApplicationDelegate, CBCentralManagerDelegate, CB
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
         peripheral.setDesiredConnectionLatency(.low, for: central)
+
+        let identifier = central.identifier
+        centrals[identifier] = central
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        let identifier = central.identifier
+        centrals.removeValue(forKey: identifier)
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
         peripheral.respond(to: request, withResult: .success)
         data.value = Data([0x0f, 0x00])
 
-        dumper?.dump()
+        let identifier = request.central.identifier
+        dumpers[identifier]?.dump()
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite request: CBATTRequest) {
         peripheral.respond(to: request, withResult: .success)
         if let value = request.value {
             data.value = value
-            dumper?.recvPacket(value)
+
+            let identifier = request.central.identifier
+            dumpers[identifier]?.recvPacket(value)
         }
     }
 
@@ -112,11 +132,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, CBCentralManagerDelegate, CB
     }
 
     public func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
-        dumper?.sendPacket()
+        dumpers.forEach {
+            $1.sendPacket()
+        }
     }
 
     // MARK: DumperDelegate
-    public func updateValue(_ value: Data) -> Bool {
-        return peripheralManager!.updateValue(value, for: data, onSubscribedCentrals: nil)
+    public func updateValue(_ value: Data, forCentral identifier: UUID) -> Bool {
+        guard let central = centrals[identifier] else {
+            return false
+        }
+
+        return peripheralManager!.updateValue(value, for: data, onSubscribedCentrals: [central])
     }
 }
