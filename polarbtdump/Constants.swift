@@ -26,3 +26,8 @@ struct Constants {
 }
 
 let BackupRoot = NSHomeDirectory() + "/.polar/backup/bt"
+
+let PBTDNDeviceConnected = Notification.Name("PBTDNDeviceConnected")
+let PBTDNDeviceDisconnected = Notification.Name("PBTDNDeviceDisconnected")
+let PBTDNSyncStarted = Notification.Name("PBTDNSyncStarted")
+let PBTDNSyncFinished = Notification.Name("PBTDNSyncFinished")

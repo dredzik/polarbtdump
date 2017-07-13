@@ -31,10 +31,8 @@ public class Dumper: NSObject {
     }
     
     public func dump() {
-        let notification = NSUserNotification()
-        notification.title = "Sync started"
-        notification.informativeText = device.name
-        NSUserNotificationCenter.default.deliver(notification)
+        NotificationCenter.default.post(name: PBTDNSyncStarted, object: device)
+
         sendRaw(Constants.Packets.SyncBegin)
 
         pathsToVisit.append("/")
@@ -43,10 +41,7 @@ public class Dumper: NSObject {
     
     private func dumpNext() {
         if pathsToVisit.count == 0 {
-            let notification = NSUserNotification()
-            notification.title = "Sync finished"
-            notification.informativeText = device.name
-            NSUserNotificationCenter.default.deliver(notification)
+            NotificationCenter.default.post(name: PBTDNSyncFinished, object: device)
 
             sendRaw(Constants.Packets.SyncEnd)
             sendRaw(Constants.Packets.SessionEnd)

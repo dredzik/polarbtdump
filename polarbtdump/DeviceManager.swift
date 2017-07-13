@@ -9,7 +9,7 @@
 import CoreBluetooth
 import Foundation
 
-public class Device: NSObject {
+public class Device {
 
     let identifier: UUID
     let name: String
@@ -70,11 +70,6 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     }
 
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        let notification = NSUserNotification()
-        notification.title = "Device connected"
-        notification.informativeText = peripheral.name
-        NSUserNotificationCenter.default.deliver(notification)
-
         let identifier = peripheral.identifier
 
         guard let device = devices[identifier] else {
@@ -82,19 +77,23 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         }
 
         dumpers[identifier] = Dumper(device, delegate: self)
+
+        NotificationCenter.default.post(name: PBTDNDeviceConnected, object: device)
     }
 
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        let notification = NSUserNotification()
-        notification.title = "Device disconnected"
-        notification.informativeText = peripheral.name
-        NSUserNotificationCenter.default.deliver(notification)
-
         let identifier = peripheral.identifier
+
+        guard let device = devices[identifier] else {
+            return
+        }
+
         dumpers.removeValue(forKey: identifier)
         devices.removeValue(forKey: identifier)
 
         central.scanForPeripherals(withServices: nil, options: nil)
+
+        NotificationCenter.default.post(name: PBTDNDeviceDisconnected, object: device)
     }
 
     // MARK: CBPeripheralManagerDelegate
