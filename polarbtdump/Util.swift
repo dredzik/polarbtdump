@@ -48,6 +48,8 @@ func PBTDUrlForPath(_ path: String, forDevice device: UUID) -> URL {
         try! manager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
     }
 
+    print(url)
+
     return url
 }
 

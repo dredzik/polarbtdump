@@ -37,7 +37,7 @@ public class Dumper: NSObject {
         NSUserNotificationCenter.default.deliver(notification)
         sendRaw(Constants.Packets.SyncBegin)
 
-        pathsToVisit.append("/U/0/")
+        pathsToVisit.append("/")
         dumpNext()
     }
     
