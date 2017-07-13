@@ -9,7 +9,7 @@
 import CoreBluetooth
 import Foundation
 
-public class Device {
+public class Device: NSObject {
 
     let identifier: UUID
     let name: String
@@ -33,7 +33,6 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     let data = CBMutableCharacteristic(type: Constants.UUIDs.Data, properties: Constants.Props, value: nil, permissions: Constants.Perms)
 
     var devices: [UUID : Device] = [:]
-    var dumpers: [UUID : Dumper] = [:]
 
     public override init() {
         super.init()
@@ -78,8 +77,6 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        dumpers[identifier] = Dumper(device)
-
         NotificationCenter.default.post(name: PBTDNDeviceConnected, object: device)
     }
 
@@ -90,7 +87,6 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        dumpers.removeValue(forKey: identifier)
         devices.removeValue(forKey: identifier)
 
         central.scanForPeripherals(withServices: nil, options: nil)

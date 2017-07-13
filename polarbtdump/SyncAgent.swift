@@ -1,5 +1,5 @@
 //
-//  PolarDump.swift
+//  SyncAgent.swift
 //  polarbtdump
 //
 //  Created by Adam Kuczyński on 28.05.2016.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Dumper: NSObject {
+public class SyncAgent: NSObject {
 
     private var device: Device
 
@@ -30,16 +30,16 @@ public class Dumper: NSObject {
         NotificationCenter.default.addObserver(forName: PBTDNPacketSendReady, object: nil, queue: nil, using: self.notificationPacketSendReady)
     }
     
-    private func dump() {
+    private func sync() {
         NotificationCenter.default.post(name: PBTDNSyncStarted, object: device)
 
         sendRaw(Constants.Packets.SyncBegin)
 
         pathsToVisit.append("/")
-        dumpNext()
+        syncNext()
     }
     
-    private func dumpNext() {
+    private func syncNext() {
         if pathsToVisit.count == 0 {
             NotificationCenter.default.post(name: PBTDNSyncFinished, object: device)
 
@@ -119,7 +119,7 @@ public class Dumper: NSObject {
             recvFile(message)
         }
 
-        dumpNext()
+        syncNext()
     }
 
     private func recvDirectory(_ message: PSMessage) {
@@ -155,7 +155,7 @@ public class Dumper: NSObject {
 
     // MARK: Notifications
     func notificationDeviceReady(_ aNotification: Notification) {
-        dump()
+        sync()
     }
 
     func notificationPacketRecv(_ aNotification: Notification) {

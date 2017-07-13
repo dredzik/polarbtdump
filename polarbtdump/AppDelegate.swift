@@ -12,10 +12,12 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var deviceManager: DeviceManager?
+    private var syncManager: SyncManager?
 
     // MARK: NSApplicationDelegate
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         deviceManager = DeviceManager()
+        syncManager = SyncManager()
 
         NotificationCenter.default.addObserver(forName: PBTDNDeviceConnected, object: nil, queue: nil, using: self.notifyUser)
         NotificationCenter.default.addObserver(forName: PBTDNDeviceDisconnected, object: nil, queue: nil, using: self.notifyUser)
