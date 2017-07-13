@@ -130,7 +130,12 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         data.value = Data([0x0f, 0x00])
 
         let identifier = request.central.identifier
-        dumpers[identifier]?.dump()
+
+        guard let device = devices[identifier] else {
+            return
+        }
+
+        NotificationCenter.default.post(name: PBTDNDeviceReady, object: device)
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite request: CBATTRequest) {

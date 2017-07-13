@@ -28,9 +28,13 @@ public class Dumper: NSObject {
     init(_ device: Device, delegate: DumperDelegate) {
         self.delegate = delegate
         self.device = device
+
+        super.init()
+
+        NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: nil, queue: nil, using: self.notificationDeviceReady)
     }
     
-    public func dump() {
+    private func dump() {
         NotificationCenter.default.post(name: PBTDNSyncStarted, object: device)
 
         sendRaw(Constants.Packets.SyncBegin)
@@ -155,6 +159,19 @@ public class Dumper: NSObject {
         let content = Data(message.payload.dropLast())
 
         try! content.write(to: url)
+    }
+
+    // MARK: Notifications
+    func notificationDeviceReady(_ aNotification: Notification) {
+        guard let device = aNotification.object as? Device else {
+            return
+        }
+
+        if self.device.identifier != device.identifier {
+            return
+        }
+
+        self.dump()
     }
 }
 

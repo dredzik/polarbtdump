@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.addObserver(forName: PBTDNSyncFinished, object: nil, queue: nil, using: self.notifyUser)
     }
 
+    // MARK: Notifications
     func notifyUser(_ aNotification: Notification) {
         var message = ""
 
