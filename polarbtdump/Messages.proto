@@ -23,6 +23,13 @@ message PolarDirectory {
     repeated PolarEntry entries = 1;
 }
 
+message PolarDevice {
+    optional string deviceId = 6;
+    optional string model = 7;
+    optional string modelColor = 9;
+    optional string modelGender = 10;
+}
+
 message PolarSessionData {
     message PolarLabel {
         optional string name = 1;
