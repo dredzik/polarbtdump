@@ -46,7 +46,7 @@ public class SyncAgent: NSObject {
         }
         
         currentPath = pathsToVisit.removeFirst()
-        let request = Request.with {
+        let request = PolarRequest.with {
             $0.type = .read
             $0.path = currentPath!
         }
@@ -64,7 +64,7 @@ public class SyncAgent: NSObject {
         let url = PBTDUrlForPath(path, forDevice: device)
         let content = Data(message.payload.dropLast())
 
-        let list = try! Directory(serializedData: content)
+        let list = try! PolarDirectory(serializedData: content)
 
         for entry in list.entries {
             let childPath = path + entry.path

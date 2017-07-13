@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-message Request {
+message PolarRequest {
     enum Type {
         READ = 0;
         WRITE = 1;
@@ -11,8 +11,8 @@ message Request {
     optional string path = 2;
 }
 
-message Directory {
-    message Entry {
+message PolarDirectory {
+    message PolarEntry {
         optional string path = 1;
         optional uint32 size = 2;
         optional PolarDateTime created = 3;
@@ -20,11 +20,11 @@ message Directory {
         optional PolarDateTime unknown = 5;
     }
 
-    repeated Entry entries = 1;
+    repeated PolarEntry entries = 1;
 }
 
-message SessionData {
-    message Label {
+message PolarSessionData {
+    message PolarLabel {
         optional string name = 1;
     }
 
@@ -36,41 +36,41 @@ message SessionData {
     optional PolarTime duration = 5;
     optional float distance = 6;
     optional uint32 calories = 7;
-    optional Heartrate heartrate = 8;
+    optional PolarHeartrate heartrate = 8;
     optional PolarTime heartrateDuration = 9;
-    optional TrainingLoad trainingLoad = 10;
-    optional Label label = 11;
+    optional PolarTrainingLoad trainingLoad = 10;
+    optional PolarLabel label = 11;
 }
 
-message ExerciseData {
-    message Sport {
+message PolarExerciseData {
+    message PolarSport {
         optional uint64 value = 1;
     }
 
-    message RunningIndex {
+    message PolarRunningIndex {
         optional uint32 value = 1;
         optional PolarTime duration = 2;
     }
 
     optional PolarDateTime start = 1;
     optional PolarTime duration = 2;
-    optional Sport sport = 3;
+    optional PolarSport sport = 3;
     optional float distance = 4;
     optional uint32 calories = 5;
-    optional TrainingLoad trainingLoad = 6;
-    optional RunningIndex index = 9;
+    optional PolarTrainingLoad trainingLoad = 6;
+    optional PolarRunningIndex index = 9;
     optional float ascent = 10;
     optional float descent = 11;
 }
 
 
-message Heartrate {
+message PolarHeartrate {
     optional uint32 average = 1;
     optional uint32 maximum = 2;
     optional uint32 minimum = 3;
 }
 
-message TrainingLoad {
+message PolarTrainingLoad {
     optional uint32 value = 1;
     optional PolarTime recovery = 2;
     optional uint32 carbs = 3;

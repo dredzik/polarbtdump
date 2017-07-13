@@ -19,10 +19,10 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-struct Request: SwiftProtobuf.Message {
-  static let protoMessageName: String = "Request"
+struct PolarRequest: SwiftProtobuf.Message {
+  static let protoMessageName: String = "PolarRequest"
 
-  var type: Request.TypeEnum {
+  var type: PolarRequest.TypeEnum {
     get {return _type ?? .read}
     set {_type = newValue}
   }
@@ -101,19 +101,19 @@ struct Request: SwiftProtobuf.Message {
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  fileprivate var _type: Request.TypeEnum? = nil
+  fileprivate var _type: PolarRequest.TypeEnum? = nil
   fileprivate var _path: String? = nil
 }
 
-struct Directory: SwiftProtobuf.Message {
-  static let protoMessageName: String = "Directory"
+struct PolarDirectory: SwiftProtobuf.Message {
+  static let protoMessageName: String = "PolarDirectory"
 
-  var entries: [Directory.Entry] = []
+  var entries: [PolarDirectory.PolarEntry] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  struct Entry: SwiftProtobuf.Message {
-    static let protoMessageName: String = Directory.protoMessageName + ".Entry"
+  struct PolarEntry: SwiftProtobuf.Message {
+    static let protoMessageName: String = PolarDirectory.protoMessageName + ".PolarEntry"
 
     var path: String {
       get {return _storage._path ?? String()}
@@ -239,8 +239,8 @@ struct Directory: SwiftProtobuf.Message {
   }
 }
 
-struct SessionData: SwiftProtobuf.Message {
-  static let protoMessageName: String = "SessionData"
+struct PolarSessionData: SwiftProtobuf.Message {
+  static let protoMessageName: String = "PolarSessionData"
 
   var start: PolarDateTime {
     get {return _storage._start ?? PolarDateTime()}
@@ -314,8 +314,8 @@ struct SessionData: SwiftProtobuf.Message {
   /// Clears the value of `calories`. Subsequent reads from it will return its default value.
   mutating func clearCalories() {_storage._calories = nil}
 
-  var heartrate: Heartrate {
-    get {return _storage._heartrate ?? Heartrate()}
+  var heartrate: PolarHeartrate {
+    get {return _storage._heartrate ?? PolarHeartrate()}
     set {_uniqueStorage()._heartrate = newValue}
   }
   /// Returns true if `heartrate` has been explicitly set.
@@ -332,8 +332,8 @@ struct SessionData: SwiftProtobuf.Message {
   /// Clears the value of `heartrateDuration`. Subsequent reads from it will return its default value.
   mutating func clearHeartrateDuration() {_storage._heartrateDuration = nil}
 
-  var trainingLoad: TrainingLoad {
-    get {return _storage._trainingLoad ?? TrainingLoad()}
+  var trainingLoad: PolarTrainingLoad {
+    get {return _storage._trainingLoad ?? PolarTrainingLoad()}
     set {_uniqueStorage()._trainingLoad = newValue}
   }
   /// Returns true if `trainingLoad` has been explicitly set.
@@ -341,8 +341,8 @@ struct SessionData: SwiftProtobuf.Message {
   /// Clears the value of `trainingLoad`. Subsequent reads from it will return its default value.
   mutating func clearTrainingLoad() {_storage._trainingLoad = nil}
 
-  var label: SessionData.Label {
-    get {return _storage._label ?? SessionData.Label()}
+  var label: PolarSessionData.PolarLabel {
+    get {return _storage._label ?? PolarSessionData.PolarLabel()}
     set {_uniqueStorage()._label = newValue}
   }
   /// Returns true if `label` has been explicitly set.
@@ -352,8 +352,8 @@ struct SessionData: SwiftProtobuf.Message {
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  struct Label: SwiftProtobuf.Message {
-    static let protoMessageName: String = SessionData.protoMessageName + ".Label"
+  struct PolarLabel: SwiftProtobuf.Message {
+    static let protoMessageName: String = PolarSessionData.protoMessageName + ".PolarLabel"
 
     var name: String {
       get {return _name ?? String()}
@@ -473,8 +473,8 @@ struct SessionData: SwiftProtobuf.Message {
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
-struct ExerciseData: SwiftProtobuf.Message {
-  static let protoMessageName: String = "ExerciseData"
+struct PolarExerciseData: SwiftProtobuf.Message {
+  static let protoMessageName: String = "PolarExerciseData"
 
   var start: PolarDateTime {
     get {return _storage._start ?? PolarDateTime()}
@@ -494,8 +494,8 @@ struct ExerciseData: SwiftProtobuf.Message {
   /// Clears the value of `duration`. Subsequent reads from it will return its default value.
   mutating func clearDuration() {_storage._duration = nil}
 
-  var sport: ExerciseData.Sport {
-    get {return _storage._sport ?? ExerciseData.Sport()}
+  var sport: PolarExerciseData.PolarSport {
+    get {return _storage._sport ?? PolarExerciseData.PolarSport()}
     set {_uniqueStorage()._sport = newValue}
   }
   /// Returns true if `sport` has been explicitly set.
@@ -521,8 +521,8 @@ struct ExerciseData: SwiftProtobuf.Message {
   /// Clears the value of `calories`. Subsequent reads from it will return its default value.
   mutating func clearCalories() {_storage._calories = nil}
 
-  var trainingLoad: TrainingLoad {
-    get {return _storage._trainingLoad ?? TrainingLoad()}
+  var trainingLoad: PolarTrainingLoad {
+    get {return _storage._trainingLoad ?? PolarTrainingLoad()}
     set {_uniqueStorage()._trainingLoad = newValue}
   }
   /// Returns true if `trainingLoad` has been explicitly set.
@@ -530,8 +530,8 @@ struct ExerciseData: SwiftProtobuf.Message {
   /// Clears the value of `trainingLoad`. Subsequent reads from it will return its default value.
   mutating func clearTrainingLoad() {_storage._trainingLoad = nil}
 
-  var index: ExerciseData.RunningIndex {
-    get {return _storage._index ?? ExerciseData.RunningIndex()}
+  var index: PolarExerciseData.PolarRunningIndex {
+    get {return _storage._index ?? PolarExerciseData.PolarRunningIndex()}
     set {_uniqueStorage()._index = newValue}
   }
   /// Returns true if `index` has been explicitly set.
@@ -559,8 +559,8 @@ struct ExerciseData: SwiftProtobuf.Message {
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  struct Sport: SwiftProtobuf.Message {
-    static let protoMessageName: String = ExerciseData.protoMessageName + ".Sport"
+  struct PolarSport: SwiftProtobuf.Message {
+    static let protoMessageName: String = PolarExerciseData.protoMessageName + ".PolarSport"
 
     var value: UInt64 {
       get {return _value ?? 0}
@@ -602,8 +602,8 @@ struct ExerciseData: SwiftProtobuf.Message {
     fileprivate var _value: UInt64? = nil
   }
 
-  struct RunningIndex: SwiftProtobuf.Message {
-    static let protoMessageName: String = ExerciseData.protoMessageName + ".RunningIndex"
+  struct PolarRunningIndex: SwiftProtobuf.Message {
+    static let protoMessageName: String = PolarExerciseData.protoMessageName + ".PolarRunningIndex"
 
     var value: UInt32 {
       get {return _storage._value ?? 0}
@@ -729,8 +729,8 @@ struct ExerciseData: SwiftProtobuf.Message {
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
-struct Heartrate: SwiftProtobuf.Message {
-  static let protoMessageName: String = "Heartrate"
+struct PolarHeartrate: SwiftProtobuf.Message {
+  static let protoMessageName: String = "PolarHeartrate"
 
   var average: UInt32 {
     get {return _average ?? 0}
@@ -800,8 +800,8 @@ struct Heartrate: SwiftProtobuf.Message {
   fileprivate var _minimum: UInt32? = nil
 }
 
-struct TrainingLoad: SwiftProtobuf.Message {
-  static let protoMessageName: String = "TrainingLoad"
+struct PolarTrainingLoad: SwiftProtobuf.Message {
+  static let protoMessageName: String = "PolarTrainingLoad"
 
   var value: UInt32 {
     get {return _storage._value ?? 0}
@@ -1132,13 +1132,13 @@ struct PolarTime: SwiftProtobuf.Message {
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
-extension Request: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarRequest: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "type"),
     2: .same(proto: "path"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Request) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarRequest) -> Bool {
     if self._type != other._type {return false}
     if self._path != other._path {return false}
     if unknownFields != other.unknownFields {return false}
@@ -1146,7 +1146,7 @@ extension Request: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._Prot
   }
 }
 
-extension Request.TypeEnum: SwiftProtobuf._ProtoNameProviding {
+extension PolarRequest.TypeEnum: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "READ"),
     1: .same(proto: "WRITE"),
@@ -1154,19 +1154,19 @@ extension Request.TypeEnum: SwiftProtobuf._ProtoNameProviding {
   ]
 }
 
-extension Directory: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarDirectory: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "entries"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Directory) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarDirectory) -> Bool {
     if self.entries != other.entries {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
 }
 
-extension Directory.Entry: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarDirectory.PolarEntry: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "path"),
     2: .same(proto: "size"),
@@ -1202,7 +1202,7 @@ extension Directory.Entry: SwiftProtobuf._MessageImplementationBase, SwiftProtob
     return _storage
   }
 
-  func _protobuf_generated_isEqualTo(other: Directory.Entry) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarDirectory.PolarEntry) -> Bool {
     if _storage !== other._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_storage, other_storage) in
         if _storage._path != other_storage._path {return false}
@@ -1219,7 +1219,7 @@ extension Directory.Entry: SwiftProtobuf._MessageImplementationBase, SwiftProtob
   }
 }
 
-extension SessionData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarSessionData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "start"),
     20: .same(proto: "end"),
@@ -1244,10 +1244,10 @@ extension SessionData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._
     var _duration: PolarTime? = nil
     var _distance: Float? = nil
     var _calories: UInt32? = nil
-    var _heartrate: Heartrate? = nil
+    var _heartrate: PolarHeartrate? = nil
     var _heartrateDuration: PolarTime? = nil
-    var _trainingLoad: TrainingLoad? = nil
-    var _label: SessionData.Label? = nil
+    var _trainingLoad: PolarTrainingLoad? = nil
+    var _label: PolarSessionData.PolarLabel? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -1276,7 +1276,7 @@ extension SessionData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._
     return _storage
   }
 
-  func _protobuf_generated_isEqualTo(other: SessionData) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarSessionData) -> Bool {
     if _storage !== other._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_storage, other_storage) in
         if _storage._start != other_storage._start {return false}
@@ -1300,19 +1300,19 @@ extension SessionData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._
   }
 }
 
-extension SessionData.Label: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarSessionData.PolarLabel: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "name"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: SessionData.Label) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarSessionData.PolarLabel) -> Bool {
     if self._name != other._name {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
 }
 
-extension ExerciseData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarExerciseData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "start"),
     2: .same(proto: "duration"),
@@ -1328,11 +1328,11 @@ extension ExerciseData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf.
   fileprivate class _StorageClass {
     var _start: PolarDateTime? = nil
     var _duration: PolarTime? = nil
-    var _sport: ExerciseData.Sport? = nil
+    var _sport: PolarExerciseData.PolarSport? = nil
     var _distance: Float? = nil
     var _calories: UInt32? = nil
-    var _trainingLoad: TrainingLoad? = nil
-    var _index: ExerciseData.RunningIndex? = nil
+    var _trainingLoad: PolarTrainingLoad? = nil
+    var _index: PolarExerciseData.PolarRunningIndex? = nil
     var _ascent: Float? = nil
     var _descent: Float? = nil
 
@@ -1360,7 +1360,7 @@ extension ExerciseData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf.
     return _storage
   }
 
-  func _protobuf_generated_isEqualTo(other: ExerciseData) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarExerciseData) -> Bool {
     if _storage !== other._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_storage, other_storage) in
         if _storage._start != other_storage._start {return false}
@@ -1381,19 +1381,19 @@ extension ExerciseData: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf.
   }
 }
 
-extension ExerciseData.Sport: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarExerciseData.PolarSport: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: ExerciseData.Sport) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarExerciseData.PolarSport) -> Bool {
     if self._value != other._value {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
 }
 
-extension ExerciseData.RunningIndex: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarExerciseData.PolarRunningIndex: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
     2: .same(proto: "duration"),
@@ -1420,7 +1420,7 @@ extension ExerciseData.RunningIndex: SwiftProtobuf._MessageImplementationBase, S
     return _storage
   }
 
-  func _protobuf_generated_isEqualTo(other: ExerciseData.RunningIndex) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarExerciseData.PolarRunningIndex) -> Bool {
     if _storage !== other._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_storage, other_storage) in
         if _storage._value != other_storage._value {return false}
@@ -1434,14 +1434,14 @@ extension ExerciseData.RunningIndex: SwiftProtobuf._MessageImplementationBase, S
   }
 }
 
-extension Heartrate: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarHeartrate: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "average"),
     2: .same(proto: "maximum"),
     3: .same(proto: "minimum"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Heartrate) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarHeartrate) -> Bool {
     if self._average != other._average {return false}
     if self._maximum != other._maximum {return false}
     if self._minimum != other._minimum {return false}
@@ -1450,7 +1450,7 @@ extension Heartrate: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._Pr
   }
 }
 
-extension TrainingLoad: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension PolarTrainingLoad: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
     2: .same(proto: "recovery"),
@@ -1486,7 +1486,7 @@ extension TrainingLoad: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf.
     return _storage
   }
 
-  func _protobuf_generated_isEqualTo(other: TrainingLoad) -> Bool {
+  func _protobuf_generated_isEqualTo(other: PolarTrainingLoad) -> Bool {
     if _storage !== other._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_storage, other_storage) in
         if _storage._value != other_storage._value {return false}

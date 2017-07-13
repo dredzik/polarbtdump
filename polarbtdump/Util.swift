@@ -53,7 +53,7 @@ func PBTDUrlForPath(_ path: String, forDevice device: Device) -> URL {
     return url
 }
 
-func PBTDShouldUpdate(_ entry: Directory.Entry, url: URL) -> Bool {
+func PBTDShouldUpdate(_ entry: PolarDirectory.PolarEntry, url: URL) -> Bool {
     let manager = FileManager.default
     let path = url.path
 

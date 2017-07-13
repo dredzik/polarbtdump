@@ -42,7 +42,7 @@ public class PSMessage: NSObject {
         super.init()
     }
 
-    init(_ request: Request) {
+    init(_ request: PolarRequest) {
         super.init()
 
         let data = try! request.serializedData()
