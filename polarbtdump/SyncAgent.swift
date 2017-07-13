@@ -30,7 +30,7 @@ public class SyncAgent: NSObject {
 
     private func sync() {
         NotificationCenter.default.post(name: Notifications.Sync.Started, object: device)
-        NotificationCenter.default.post(name: Notifications.Message.SendRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])
+        NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])
 
         pathsToVisit.append("/")
         syncNext()
@@ -39,8 +39,8 @@ public class SyncAgent: NSObject {
     private func syncNext() {
         if pathsToVisit.count == 0 {
             NotificationCenter.default.post(name: Notifications.Sync.Finished, object: device)
-            NotificationCenter.default.post(name: Notifications.Message.SendRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
-            NotificationCenter.default.post(name: Notifications.Message.SendRaw, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
+            NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
+            NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
 
             return
         }

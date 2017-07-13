@@ -35,7 +35,6 @@ struct Notifications {
     struct Message {
         static let Recv = Notification.Name("BFMessageRecv")
         static let Send = Notification.Name("BFMessageSend")
-        static let SendRaw = Notification.Name("BFMessageSendRaw")
     }
 
     struct Sync {

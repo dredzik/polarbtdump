@@ -36,7 +36,6 @@ public class Device: NSObject {
         super.init()
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSend(_:)), name: Notifications.Message.Send, object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSendRaw(_:)), name: Notifications.Message.SendRaw, object: self)
     }
 
     deinit {
@@ -68,8 +67,8 @@ public class Device: NSObject {
         send()
     }
 
-    private func sendMessageRaw(_ value: Data) {
-        sendPackets.append(value)
+    private func sendMessage(raw message: Data) {
+        sendPackets.append(message)
         send()
     }
 
@@ -85,7 +84,7 @@ public class Device: NSObject {
         recvChunks.append(chunk)
 
         if packets.last!.more {
-            sendMessageRaw(Data([0x09, chunk.number]))
+            sendMessage(raw: Data([0x09, chunk.number]))
         } else {
             recvMessage(recvChunks)
             recvChunks.removeAll()
@@ -103,19 +102,17 @@ public class Device: NSObject {
     }
 
     // MARK: Notifications
-    func notificationMessageSend(_ aNotification: Notification) {
-        guard let message = aNotification.userInfo?["Data"] as? PSMessage else {
+    func notificationMessageSend(_ notification: Notification) {
+        guard let data = notification.userInfo?["Data"] else {
             return
         }
 
-        sendMessage(message)
-    }
-
-    func notificationMessageSendRaw(_ aNotification: Notification) {
-        guard let data = aNotification.userInfo?["Data"] as? Data else {
-            return
+        if let message = data as? PSMessage {
+            sendMessage(message)
         }
 
-        sendMessageRaw(data)
+        if let rawMessage = data as? Data {
+            sendMessage(raw: rawMessage)
+        }
     }
 }
