@@ -15,21 +15,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var syncManager: SyncManager?
 
     // MARK: NSApplicationDelegate
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func applicationDidFinishLaunching(_ notification: Notification) {
         deviceManager = DeviceManager()
         syncManager = SyncManager()
 
-        NotificationCenter.default.addObserver(forName: PBTDNDeviceConnected, object: nil, queue: nil, using: self.notifyUser)
-        NotificationCenter.default.addObserver(forName: PBTDNDeviceDisconnected, object: nil, queue: nil, using: self.notifyUser)
-        NotificationCenter.default.addObserver(forName: PBTDNSyncStarted, object: nil, queue: nil, using: self.notifyUser)
-        NotificationCenter.default.addObserver(forName: PBTDNSyncFinished, object: nil, queue: nil, using: self.notifyUser)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifyUser(_:)), name: nil, object: nil)
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        NotificationCenter.default.removeObserver(self, name: nil, object: nil)
+
+        if let observer = deviceManager {
+            NotificationCenter.default.removeObserver(observer, name: nil, object: nil)
+        }
+
+        if let observer = syncManager {
+            NotificationCenter.default.removeObserver(observer, name: nil, object: nil)
+        }
     }
 
     // MARK: Notifications
-    func notifyUser(_ aNotification: Notification) {
+    func notifyUser(_ notification: Notification) {
         var message = ""
 
-        switch aNotification.name {
+        switch notification.name {
         case PBTDNDeviceConnected:
             message = "Device connected"
         case PBTDNDeviceDisconnected:
@@ -42,13 +51,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        guard let device = aNotification.object as? Device else {
+        guard let device = notification.object as? Device else {
             return
         }
 
-        let notification = NSUserNotification()
-        notification.title = device.name
-        notification.informativeText = message
-        NSUserNotificationCenter.default.deliver(notification)
+        let user = NSUserNotification()
+
+        user.title = device.name
+        user.informativeText = message
+
+        NSUserNotificationCenter.default.deliver(user)
     }
 }

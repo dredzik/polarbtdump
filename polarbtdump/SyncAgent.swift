@@ -20,8 +20,8 @@ public class SyncAgent: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: device, queue: nil, using: self.notificationDeviceReady)
-        NotificationCenter.default.addObserver(forName: PBTDNMessageRecv, object: device, queue: nil, using: self.notificationMessageRecv)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceReady(_:)), name: PBTDNDeviceReady, object: device)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRecv(_:)), name: PBTDNMessageRecv, object: device)
     }
     
     private func sync() {

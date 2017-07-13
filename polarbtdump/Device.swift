@@ -27,12 +27,12 @@ public class Device: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(forName: PBTDNMessageSend, object: self, queue: nil, using: self.notificationMessageSend)
-        NotificationCenter.default.addObserver(forName: PBTDNMessageRaw, object: self, queue: nil, using: self.notificationMessageRaw)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSend(_:)), name: PBTDNMessageSend, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRaw(_:)), name: PBTDNMessageRaw, object: self)
 
-        NotificationCenter.default.addObserver(forName: PBTDNPacketSendSuccess, object: self, queue: nil, using: self.notificationPacketSendSuccess)
-        NotificationCenter.default.addObserver(forName: PBTDNPacketSendReady, object: nil, queue: nil, using: self.notificationPacketSendReady)
-        NotificationCenter.default.addObserver(forName: PBTDNPacketRecv, object: self, queue: nil, using: self.notificationPacketRecv)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketRecv(_:)), name: PBTDNPacketRecv, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSendSuccess(_:)), name: PBTDNPacketSendSuccess, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSendReady(_:)), name: PBTDNPacketSendReady, object: nil)
     }
 
     // MARK: Send

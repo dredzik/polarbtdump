@@ -26,7 +26,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
 
         service.characteristics = [data]
 
-        NotificationCenter.default.addObserver(forName: PBTDNPacketSend, object: nil, queue: nil, using: self.notificationPacketSend)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSend(_:)), name: PBTDNPacketSend, object: nil)
     }
 
     // MARK: CBCentralManagerDelegate

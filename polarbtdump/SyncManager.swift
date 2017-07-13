@@ -8,13 +8,15 @@
 
 import Foundation
 
-public class SyncManager {
+public class SyncManager: NSObject {
 
     private var agents: [Device : SyncAgent] = [:]
 
-    public init() {
-        NotificationCenter.default.addObserver(forName: PBTDNDeviceConnected, object: nil, queue: nil, using: self.notificationDeviceConnected)
-        NotificationCenter.default.addObserver(forName: PBTDNDeviceDisconnected, object: nil, queue: nil, using: self.notificationDeviceDisconnected)
+    public override init() {
+        super.init()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceConnected(_:)), name: PBTDNDeviceConnected, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceDisconnected(_:)), name: PBTDNDeviceDisconnected, object: nil)
     }
 
     // MARK: Notifications
