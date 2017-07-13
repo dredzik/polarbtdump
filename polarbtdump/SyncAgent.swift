@@ -16,7 +16,6 @@ public class SyncAgent: NSObject {
     private var pathsToVisit = [String]()
     private var recvChunks = [PSChunk]()
     private var recvPackets = [PSPacket]()
-    private var sendChunks = [PSChunk]()
     private var sendPackets = [Data]()
 
     init(_ device: Device) {
@@ -55,24 +54,22 @@ public class SyncAgent: NSObject {
             $0.path = currentPath!
         }
 
-        sendRequest(request)
+        sendMessage(PSMessage(request))
     }
     
     // Sending
-    private func sendRequest(_ request: Request) {
-        let message = PSMessage(request)
-        sendChunks = PSMessage.encode(message)
-
-        sendChunk()
-    }
-    
-    private func sendChunk() {
-        let chunk = sendChunks.removeFirst()
-
-        for packet in PSChunk.encode(chunk) {
-            sendPackets.append(PSPacket.encode(packet))
+    private func sendMessage(_ message: PSMessage) {
+        for chunk in PSMessage.encode(message) {
+            for packet in PSChunk.encode(chunk) {
+                sendPackets.append(PSPacket.encode(packet))
+            }
         }
 
+        sendPacket()
+    }
+    
+    private func sendRaw(_ value: Data) {
+        sendPackets.append(value)
         sendPacket()
     }
     
@@ -81,12 +78,7 @@ public class SyncAgent: NSObject {
             NotificationCenter.default.post(name: PBTDNPacketSend, object: device, userInfo: ["Data" : sendPackets[0]])
         }
     }
-    
-    private func sendRaw(_ value: Data) {
-        sendPackets.append(value)
-        sendPacket()
-    }
-    
+
     // Receiving
     private func recvPacket(_ value: Data) {
         let packet = PSPacket.decode(value)
