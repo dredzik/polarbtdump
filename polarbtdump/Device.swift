@@ -36,7 +36,7 @@ public class Device: NSObject {
         super.init()
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSend(_:)), name: Notifications.Message.Send, object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRaw(_:)), name: Notifications.Message.SendRaw, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSendRaw(_:)), name: Notifications.Message.SendRaw, object: self)
     }
 
     deinit {
@@ -111,7 +111,7 @@ public class Device: NSObject {
         sendMessage(message)
     }
 
-    func notificationMessageRaw(_ aNotification: Notification) {
+    func notificationMessageSendRaw(_ aNotification: Notification) {
         guard let data = aNotification.userInfo?["Data"] as? Data else {
             return
         }
