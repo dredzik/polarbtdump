@@ -31,7 +31,8 @@ public class Dumper: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: nil, queue: nil, using: self.notificationDeviceReady)
+        NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: device, queue: nil, using: self.notificationDeviceReady)
+        NotificationCenter.default.addObserver(forName: PBTDNPacketRecv, object: device, queue: nil, using: self.notificationPacketRecv)
     }
     
     private func dump() {
@@ -163,15 +164,15 @@ public class Dumper: NSObject {
 
     // MARK: Notifications
     func notificationDeviceReady(_ aNotification: Notification) {
-        guard let device = aNotification.object as? Device else {
-            return
-        }
-
-        if self.device.identifier != device.identifier {
-            return
-        }
-
         self.dump()
+    }
+
+    func notificationPacketRecv(_ aNotification: Notification) {
+        guard let data = aNotification.userInfo?["Data"] as? Data else {
+            return
+        }
+
+        self.recvPacket(data)
     }
 }
 

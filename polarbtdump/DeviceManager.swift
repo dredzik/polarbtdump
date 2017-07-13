@@ -140,12 +140,20 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite request: CBATTRequest) {
         peripheral.respond(to: request, withResult: .success)
-        if let value = request.value {
-            data.value = value
 
-            let identifier = request.central.identifier
-            dumpers[identifier]?.recvPacket(value)
+        guard let value = request.value else {
+            return
         }
+
+        let identifier = request.central.identifier
+
+        guard let device = devices[identifier] else {
+            return
+        }
+
+        data.value = value
+
+        NotificationCenter.default.post(name: PBTDNPacketRecv, object: device, userInfo: ["Data" : value])
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {

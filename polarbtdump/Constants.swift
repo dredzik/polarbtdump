@@ -30,5 +30,8 @@ let BackupRoot = NSHomeDirectory() + "/.polar/backup/bt"
 let PBTDNDeviceConnected = Notification.Name("PBTDNDeviceConnected")
 let PBTDNDeviceDisconnected = Notification.Name("PBTDNDeviceDisconnected")
 let PBTDNDeviceReady = Notification.Name("PBTDNDeviceReady")
+
+let PBTDNPacketRecv = Notification.Name("PBTDNPacketRecv")
+
 let PBTDNSyncStarted = Notification.Name("PBTDNSyncStarted")
 let PBTDNSyncFinished = Notification.Name("PBTDNSyncFinished")
