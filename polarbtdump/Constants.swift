@@ -38,14 +38,6 @@ struct Notifications {
         static let SendRaw = Notification.Name("BFMessageSendRaw")
     }
 
-    struct Packet {
-        static let Recv = Notification.Name("BFPacketRecv")
-        static let Send = Notification.Name("BFPacketSend")
-        static let SendSuccess = Notification.Name("BFPacketSendSuccess")
-        static let SendFailure = Notification.Name("BFPacketSendFailure")
-        static let SendReady = Notification.Name("BFPacketSendReady")
-    }
-
     struct Sync {
         static let Started = Notification.Name("BFSyncStarted")
         static let Finished = Notification.Name("BFSyncFinished")

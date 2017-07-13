@@ -9,7 +9,7 @@
 import CoreBluetooth
 import Foundation
 
-public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate {
+public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate, DeviceDelegate {
 
     private var centralManager: CBCentralManager!
     private var peripheralManager: CBPeripheralManager!
@@ -25,12 +25,6 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
 
         service.characteristics = [characteristic]
-
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSend(_:)), name: Notifications.Packet.Send, object: nil)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: CBCentralManagerDelegate
@@ -51,7 +45,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        let device = Device(peripheral)
+        let device = Device(self, peripheral: peripheral)
         devices[device.identifier] = device
 
         central.stopScan()
@@ -126,15 +120,10 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        let identifier = request.central.identifier
-
-        guard let device = devices[identifier] else {
-            return
-        }
-
         characteristic.value = value
 
-        NotificationCenter.default.post(name: Notifications.Packet.Recv, object: device, userInfo: ["Data" : value])
+        let identifier = request.central.identifier
+        devices[identifier]?.recv(value)
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
@@ -144,25 +133,17 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     }
 
     public func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
-        NotificationCenter.default.post(name: Notifications.Packet.SendReady, object: nil, userInfo: nil)
+        devices.forEach {
+            $1.send()
+        }
     }
 
-    // MARK: Notifications
-    func notificationPacketSend(_ aNotification: Notification) {
-        guard let device = aNotification.object as? Device else {
-            return
-        }
-
+    // MARK: DeviceDelegate
+    public func send(_ value: Data, forDevice device: Device) -> Bool {
         guard let central = device.central else {
-            return
+            return false
         }
 
-        guard let value = aNotification.userInfo?["Data"] as? Data else {
-            return
-        }
-
-        let result = peripheralManager.updateValue(value, for: characteristic, onSubscribedCentrals: [central])
-
-        NotificationCenter.default.post(name: result ? Notifications.Packet.SendSuccess : Notifications.Packet.SendFailure, object: device)
+        return peripheralManager.updateValue(value, for: characteristic, onSubscribedCentrals: [central])
     }
 }
