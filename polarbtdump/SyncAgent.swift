@@ -23,7 +23,11 @@ public class SyncAgent: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceReady(_:)), name: Notifications.Device.Ready, object: device)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRecv(_:)), name: Notifications.Message.Recv, object: device)
     }
-    
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     private func sync() {
         NotificationCenter.default.post(name: Notifications.Sync.Started, object: device)
         NotificationCenter.default.post(name: Notifications.Message.SendRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])

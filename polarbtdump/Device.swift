@@ -35,6 +35,10 @@ public class Device: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSendReady(_:)), name: Notifications.Packet.SendReady, object: nil)
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     // MARK: Send
     private func sendMessage(_ message: PSMessage) {
         for chunk in PSMessage.encode(message) {
