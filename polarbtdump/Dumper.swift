@@ -10,7 +10,7 @@ import Foundation
 
 public protocol DumperDelegate {
 
-    func updateValue(_ value: Data, forDevice device: Device) -> Bool
+    func updateValue(_ value: Data, forDevice device: Device)
 }
 
 public class Dumper: NSObject {
@@ -33,6 +33,7 @@ public class Dumper: NSObject {
 
         NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: device, queue: nil, using: self.notificationDeviceReady)
         NotificationCenter.default.addObserver(forName: PBTDNPacketRecv, object: device, queue: nil, using: self.notificationPacketRecv)
+        NotificationCenter.default.addObserver(forName: PBTDNPacketSendSuccess, object: device, queue: nil, using: self.notificationPacketSendSuccess)
         NotificationCenter.default.addObserver(forName: PBTDNPacketSendReady, object: nil, queue: nil, using: self.notificationPacketSendReady)
     }
     
@@ -83,12 +84,8 @@ public class Dumper: NSObject {
     }
     
     private func sendPacket() {
-        while sendPackets.count > 0 {
-            if !delegate.updateValue(sendPackets[0], forDevice: device) {
-                break
-            }
-            
-            sendPackets.removeFirst()
+        if sendPackets.count > 0 {
+            delegate.updateValue(sendPackets[0], forDevice: device)
         }
     }
     
@@ -174,6 +171,11 @@ public class Dumper: NSObject {
         }
 
         recvPacket(data)
+    }
+
+    func notificationPacketSendSuccess(_ aNotification: Notification) {
+        sendPackets.removeFirst()
+        sendPacket()
     }
 
     func notificationPacketSendReady(_ aNotification: Notification) {

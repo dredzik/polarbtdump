@@ -167,11 +167,13 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     }
 
     // MARK: DumperDelegate
-    public func updateValue(_ value: Data, forDevice device: Device) -> Bool {
+    public func updateValue(_ value: Data, forDevice device: Device) {
         guard let central = device.central else {
-            return false
+            return
         }
 
-        return peripheralManager!.updateValue(value, for: data, onSubscribedCentrals: [central])
+        let result = peripheralManager!.updateValue(value, for: data, onSubscribedCentrals: [central])
+
+        NotificationCenter.default.post(name: result ? PBTDNPacketSendSuccess : PBTDNPacketSendFailure, object: device)
     }
 }
