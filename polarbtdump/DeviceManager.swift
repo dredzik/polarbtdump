@@ -25,7 +25,7 @@ public class Device {
     }
 }
 
-public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate, DumperDelegate {
+public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate {
 
     var centralManager: CBCentralManager?
     var peripheralManager: CBPeripheralManager?
@@ -42,6 +42,8 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
 
         service.characteristics = [data]
+
+        NotificationCenter.default.addObserver(forName: PBTDNPacketSend, object: nil, queue: nil, using: self.notificationPacketSend)
     }
 
     // MARK: CBCentralManagerDelegate
@@ -76,7 +78,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        dumpers[identifier] = Dumper(device, delegate: self)
+        dumpers[identifier] = Dumper(device)
 
         NotificationCenter.default.post(name: PBTDNDeviceConnected, object: device)
     }
@@ -166,9 +168,17 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         NotificationCenter.default.post(name: PBTDNPacketSendReady, object: nil, userInfo: nil)
     }
 
-    // MARK: DumperDelegate
-    public func updateValue(_ value: Data, forDevice device: Device) {
+    // MARK: Notifications
+    func notificationPacketSend(_ aNotification: Notification) {
+        guard let device = aNotification.object as? Device else {
+            return
+        }
+
         guard let central = device.central else {
+            return
+        }
+
+        guard let value = aNotification.userInfo?["Data"] as? Data else {
             return
         }
 

@@ -8,14 +8,8 @@
 
 import Foundation
 
-public protocol DumperDelegate {
-
-    func updateValue(_ value: Data, forDevice device: Device)
-}
-
 public class Dumper: NSObject {
 
-    private var delegate: DumperDelegate
     private var device: Device
 
     private var currentPath: String?
@@ -25,8 +19,7 @@ public class Dumper: NSObject {
     private var sendChunks = [PSChunk]()
     private var sendPackets = [Data]()
 
-    init(_ device: Device, delegate: DumperDelegate) {
-        self.delegate = delegate
+    init(_ device: Device) {
         self.device = device
 
         super.init()
@@ -85,7 +78,7 @@ public class Dumper: NSObject {
     
     private func sendPacket() {
         if sendPackets.count > 0 {
-            delegate.updateValue(sendPackets[0], forDevice: device)
+            NotificationCenter.default.post(name: PBTDNPacketSend, object: device, userInfo: ["Data" : sendPackets[0]])
         }
     }
     
