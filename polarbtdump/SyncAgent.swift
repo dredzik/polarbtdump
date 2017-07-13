@@ -20,13 +20,13 @@ public class SyncAgent: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceReady(_:)), name: PBTDNDeviceReady, object: device)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRecv(_:)), name: PBTDNMessageRecv, object: device)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceReady(_:)), name: Notifications.Device.Ready, object: device)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRecv(_:)), name: Notifications.Message.Recv, object: device)
     }
     
     private func sync() {
-        NotificationCenter.default.post(name: PBTDNSyncStarted, object: device)
-        NotificationCenter.default.post(name: PBTDNMessageRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])
+        NotificationCenter.default.post(name: Notifications.Sync.Started, object: device)
+        NotificationCenter.default.post(name: Notifications.Message.SendRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])
 
         pathsToVisit.append("/")
         syncNext()
@@ -34,9 +34,9 @@ public class SyncAgent: NSObject {
     
     private func syncNext() {
         if pathsToVisit.count == 0 {
-            NotificationCenter.default.post(name: PBTDNSyncFinished, object: device)
-            NotificationCenter.default.post(name: PBTDNMessageRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
-            NotificationCenter.default.post(name: PBTDNMessageRaw, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
+            NotificationCenter.default.post(name: Notifications.Sync.Finished, object: device)
+            NotificationCenter.default.post(name: Notifications.Message.SendRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
+            NotificationCenter.default.post(name: Notifications.Message.SendRaw, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
 
             return
         }
@@ -49,7 +49,7 @@ public class SyncAgent: NSObject {
 
         let message = PSMessage(request)
 
-        NotificationCenter.default.post(name: PBTDNMessageSend, object: device, userInfo: ["Data" : message])
+        NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : message])
     }
     
     private func recvDirectory(_ message: PSMessage) {

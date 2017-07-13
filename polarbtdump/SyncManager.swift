@@ -15,8 +15,12 @@ public class SyncManager: NSObject {
     public override init() {
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceConnected(_:)), name: PBTDNDeviceConnected, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceDisconnected(_:)), name: PBTDNDeviceDisconnected, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceConnected(_:)), name: Notifications.Device.Connected, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceDisconnected(_:)), name: Notifications.Device.Disconnected, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: Notifications

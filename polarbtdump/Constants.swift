@@ -25,21 +25,29 @@ struct Constants {
     static let Props: CBCharacteristicProperties = [.read, .writeWithoutResponse, .notify]
 }
 
-let BackupRoot = NSHomeDirectory() + "/.polar/backup/bt"
+struct Notifications {
+    struct Device {
+        static let Connected = Notification.Name("BFDeviceConnected")
+        static let Disconnected = Notification.Name("BFDeviceDisconnected")
+        static let Ready = Notification.Name("BFDeviceReady")
+    }
 
-let PBTDNDeviceConnected = Notification.Name("PBTDNDeviceConnected")
-let PBTDNDeviceDisconnected = Notification.Name("PBTDNDeviceDisconnected")
-let PBTDNDeviceReady = Notification.Name("PBTDNDeviceReady")
+    struct Message {
+        static let Recv = Notification.Name("BFMessageRecv")
+        static let Send = Notification.Name("BFMessageSend")
+        static let SendRaw = Notification.Name("BFMessageSendRaw")
+    }
 
-let PBTDNMessageRecv = Notification.Name("PBTDNMessageRecv")
-let PBTDNMessageSend = Notification.Name("PBTDNMessageSend")
-let PBTDNMessageRaw = Notification.Name("PBTDNMessageRaw")
+    struct Packet {
+        static let Recv = Notification.Name("BFPacketRecv")
+        static let Send = Notification.Name("BFPacketSend")
+        static let SendSuccess = Notification.Name("BFPacketSendSuccess")
+        static let SendFailure = Notification.Name("BFPacketSendFailure")
+        static let SendReady = Notification.Name("BFPacketSendReady")
+    }
 
-let PBTDNPacketRecv = Notification.Name("PBTDNPacketRecv")
-let PBTDNPacketSend = Notification.Name("PBTDNPacketSend")
-let PBTDNPacketSendSuccess = Notification.Name("PBTDNPacketSendSuccess")
-let PBTDNPacketSendFailure = Notification.Name("PBTDNPacketSendFailure")
-let PBTDNPacketSendReady = Notification.Name("PBTDNPacketSendReady")
-
-let PBTDNSyncStarted = Notification.Name("PBTDNSyncStarted")
-let PBTDNSyncFinished = Notification.Name("PBTDNSyncFinished")
+    struct Sync {
+        static let Started = Notification.Name("BFSyncStarted")
+        static let Finished = Notification.Name("BFSyncFinished")
+    }
+}

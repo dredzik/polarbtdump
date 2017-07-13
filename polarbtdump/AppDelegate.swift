@@ -24,14 +24,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self, name: nil, object: nil)
-
-        if let observer = deviceManager {
-            NotificationCenter.default.removeObserver(observer, name: nil, object: nil)
-        }
-
-        if let observer = syncManager {
-            NotificationCenter.default.removeObserver(observer, name: nil, object: nil)
-        }
     }
 
     // MARK: Notifications
@@ -39,13 +31,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var message = ""
 
         switch notification.name {
-        case PBTDNDeviceConnected:
+        case Notifications.Device.Connected:
             message = "Device connected"
-        case PBTDNDeviceDisconnected:
+        case Notifications.Device.Disconnected:
             message = "Device disconnected"
-        case PBTDNSyncStarted:
+        case Notifications.Sync.Started:
             message = "Sync started"
-        case PBTDNSyncFinished:
+        case Notifications.Sync.Finished:
             message = "Sync finished"
         default:
             return

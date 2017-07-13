@@ -26,7 +26,11 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
 
         service.characteristics = [data]
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSend(_:)), name: PBTDNPacketSend, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSend(_:)), name: Notifications.Packet.Send, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: CBCentralManagerDelegate
@@ -61,21 +65,16 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        NotificationCenter.default.post(name: PBTDNDeviceConnected, object: device)
+        NotificationCenter.default.post(name: Notifications.Device.Connected, object: device)
     }
 
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         let identifier = peripheral.identifier
-
-        guard let device = devices[identifier] else {
-            return
-        }
-
-        devices.removeValue(forKey: identifier)
+        let device = devices.removeValue(forKey: identifier)
 
         central.scanForPeripherals(withServices: nil, options: nil)
 
-        NotificationCenter.default.post(name: PBTDNDeviceDisconnected, object: device)
+        NotificationCenter.default.post(name: Notifications.Device.Disconnected, object: device)
     }
 
     // MARK: CBPeripheralManagerDelegate
@@ -117,7 +116,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        NotificationCenter.default.post(name: PBTDNDeviceReady, object: device)
+        NotificationCenter.default.post(name: Notifications.Device.Ready, object: device)
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite request: CBATTRequest) {
@@ -135,7 +134,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
 
         data.value = value
 
-        NotificationCenter.default.post(name: PBTDNPacketRecv, object: device, userInfo: ["Data" : value])
+        NotificationCenter.default.post(name: Notifications.Packet.Recv, object: device, userInfo: ["Data" : value])
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
@@ -145,7 +144,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     }
 
     public func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
-        NotificationCenter.default.post(name: PBTDNPacketSendReady, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.Packet.SendReady, object: nil, userInfo: nil)
     }
 
     // MARK: Notifications
@@ -164,6 +163,6 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
 
         let result = peripheralManager!.updateValue(value, for: data, onSubscribedCentrals: [central])
 
-        NotificationCenter.default.post(name: result ? PBTDNPacketSendSuccess : PBTDNPacketSendFailure, object: device)
+        NotificationCenter.default.post(name: result ? Notifications.Packet.SendSuccess : Notifications.Packet.SendFailure, object: device)
     }
 }

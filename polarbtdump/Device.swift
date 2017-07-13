@@ -27,12 +27,12 @@ public class Device: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSend(_:)), name: PBTDNMessageSend, object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRaw(_:)), name: PBTDNMessageRaw, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSend(_:)), name: Notifications.Message.Send, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRaw(_:)), name: Notifications.Message.SendRaw, object: self)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketRecv(_:)), name: PBTDNPacketRecv, object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSendSuccess(_:)), name: PBTDNPacketSendSuccess, object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSendReady(_:)), name: PBTDNPacketSendReady, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketRecv(_:)), name: Notifications.Packet.Recv, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSendSuccess(_:)), name: Notifications.Packet.SendSuccess, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSendReady(_:)), name: Notifications.Packet.SendReady, object: nil)
     }
 
     // MARK: Send
@@ -53,7 +53,7 @@ public class Device: NSObject {
 
     private func sendPacket() {
         if sendPackets.count > 0 {
-            NotificationCenter.default.post(name: PBTDNPacketSend, object: self, userInfo: ["Data" : sendPackets[0]])
+            NotificationCenter.default.post(name: Notifications.Packet.Send, object: self, userInfo: ["Data" : sendPackets[0]])
         }
     }
 
@@ -83,7 +83,7 @@ public class Device: NSObject {
     private func recvMessage(_ chunks: [PSChunk]) {
         let message = PSMessage.decode(chunks)
 
-        NotificationCenter.default.post(name: PBTDNMessageRecv, object: self, userInfo: ["Data" : message])
+        NotificationCenter.default.post(name: Notifications.Message.Recv, object: self, userInfo: ["Data" : message])
     }
 
     // MARK: Notifications
