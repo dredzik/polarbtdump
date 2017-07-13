@@ -10,13 +10,13 @@ import Foundation
 
 public protocol DumperDelegate {
 
-    func updateValue(_ value: Data, forCentral identifier: UUID) -> Bool
+    func updateValue(_ value: Data, forDevice device: Device) -> Bool
 }
 
 public class Dumper: NSObject {
 
     private var delegate: DumperDelegate
-    private var identifier: UUID
+    private var device: Device
 
     private var currentPath: String?
     private var pathsToVisit = [String]()
@@ -25,15 +25,15 @@ public class Dumper: NSObject {
     private var sendChunks = [PSChunk]()
     private var sendPackets = [Data]()
 
-    init(_ identifier: UUID, delegate: DumperDelegate) {
+    init(_ device: Device, delegate: DumperDelegate) {
         self.delegate = delegate
-        self.identifier = identifier
+        self.device = device
     }
     
     public func dump() {
         let notification = NSUserNotification()
         notification.title = "Sync started"
-        notification.informativeText = identifier.description
+        notification.informativeText = device.name
         NSUserNotificationCenter.default.deliver(notification)
         sendRaw(Constants.Packets.SyncBegin)
 
@@ -45,7 +45,7 @@ public class Dumper: NSObject {
         if pathsToVisit.count == 0 {
             let notification = NSUserNotification()
             notification.title = "Sync finished"
-            notification.informativeText = identifier.description
+            notification.informativeText = device.name
             NSUserNotificationCenter.default.deliver(notification)
 
             sendRaw(Constants.Packets.SyncEnd)
@@ -83,7 +83,7 @@ public class Dumper: NSObject {
     
     public func sendPacket() {
         while sendPackets.count > 0 {
-            if !delegate.updateValue(sendPackets[0], forCentral: identifier) {
+            if !delegate.updateValue(sendPackets[0], forDevice: device) {
                 break
             }
             
@@ -136,14 +136,14 @@ public class Dumper: NSObject {
             return
         }
 
-        let url = PBTDUrlForPath(path, forDevice: identifier)
+        let url = PBTDUrlForPath(path, forDevice: device)
         let content = Data(message.payload.dropLast())
 
         let list = try! Directory(serializedData: content)
 
         for entry in list.entries {
             let childPath = path + entry.path
-            let childUrl = PBTDUrlForPath(childPath, forDevice: identifier)
+            let childUrl = PBTDUrlForPath(childPath, forDevice: device)
 
             if PBTDShouldUpdate(entry, url: childUrl) {
                 pathsToVisit.append(childPath)
@@ -156,7 +156,7 @@ public class Dumper: NSObject {
             return
         }
 
-        let url = PBTDUrlForPath(path, forDevice: identifier)
+        let url = PBTDUrlForPath(path, forDevice: device)
         let content = Data(message.payload.dropLast())
 
         try! content.write(to: url)

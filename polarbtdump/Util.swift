@@ -32,13 +32,13 @@ func formatDate(_ date: Date) -> String {
     return f.string(from: date)
 }
 
-func PBTDUrlForPath(_ path: String, forDevice device: UUID) -> URL {
+func PBTDUrlForPath(_ path: String, forDevice device: Device) -> URL {
     let manager = FileManager.default
     let identifier = Bundle.main.bundleIdentifier
 
     let rootDirectory = manager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
     let applicationDirectory = rootDirectory.appendingPathComponent(identifier!)
-    let deviceDirectory = applicationDirectory.appendingPathComponent(device.description)
+    let deviceDirectory = applicationDirectory.appendingPathComponent(device.identifier.description)
 
     try! manager.createDirectory(at: deviceDirectory, withIntermediateDirectories: true, attributes: nil)
 

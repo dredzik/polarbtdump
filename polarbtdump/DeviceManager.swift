@@ -9,6 +9,22 @@
 import CoreBluetooth
 import Foundation
 
+public class Device: NSObject {
+
+    let identifier: UUID
+    let name: String
+
+    var central: CBCentral?
+    let peripheral: CBPeripheral
+
+    public init(_ peripheral: CBPeripheral) {
+        self.identifier = peripheral.identifier
+        self.name = peripheral.name!
+
+        self.peripheral = peripheral
+    }
+}
+
 public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate, DumperDelegate {
 
     var centralManager: CBCentralManager?
@@ -16,9 +32,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     let service = CBMutableService(type: Constants.UUIDs.Service, primary: true)
     let data = CBMutableCharacteristic(type: Constants.UUIDs.Data, properties: Constants.Props, value: nil, permissions: Constants.Perms)
 
-    var centrals: [UUID : CBCentral] = [:]
-    var peripherals: [UUID : CBPeripheral] = [:]
-
+    var devices: [UUID : Device] = [:]
     var dumpers: [UUID : Dumper] = [:]
 
     public override init() {
@@ -48,11 +62,11 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        let identifier = peripheral.identifier
-        peripherals[identifier] = peripheral
+        let device = Device(peripheral)
+        devices[device.identifier] = device
 
         central.stopScan()
-        central.connect(peripherals[identifier]! , options: nil)
+        central.connect(device.peripheral, options: nil)
     }
 
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -62,7 +76,12 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         NSUserNotificationCenter.default.deliver(notification)
 
         let identifier = peripheral.identifier
-        dumpers[identifier] = Dumper(identifier, delegate: self)
+
+        guard let device = devices[identifier] else {
+            return
+        }
+
+        dumpers[identifier] = Dumper(device, delegate: self)
     }
 
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -73,7 +92,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
 
         let identifier = peripheral.identifier
         dumpers.removeValue(forKey: identifier)
-        peripherals.removeValue(forKey: identifier)
+        devices.removeValue(forKey: identifier)
 
         central.scanForPeripherals(withServices: nil, options: nil)
     }
@@ -99,12 +118,12 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         peripheral.setDesiredConnectionLatency(.low, for: central)
 
         let identifier = central.identifier
-        centrals[identifier] = central
-    }
 
-    public func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
-        let identifier = central.identifier
-        centrals.removeValue(forKey: identifier)
+        guard let device = devices[identifier] else {
+            return
+        }
+
+        device.central = central
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
@@ -138,8 +157,8 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     }
 
     // MARK: DumperDelegate
-    public func updateValue(_ value: Data, forCentral identifier: UUID) -> Bool {
-        guard let central = centrals[identifier] else {
+    public func updateValue(_ value: Data, forDevice device: Device) -> Bool {
+        guard let central = device.central else {
             return false
         }
 
