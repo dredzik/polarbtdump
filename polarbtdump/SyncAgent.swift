@@ -22,7 +22,6 @@ public class SyncAgent: NSObject {
 
         NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: device, queue: nil, using: self.notificationDeviceReady)
         NotificationCenter.default.addObserver(forName: PBTDNMessageRecv, object: device, queue: nil, using: self.notificationMessageRecv)
-
     }
     
     private func sync() {
@@ -53,17 +52,6 @@ public class SyncAgent: NSObject {
         NotificationCenter.default.post(name: PBTDNMessageSend, object: device, userInfo: ["Data" : message])
     }
     
-    // Receiving
-    private func recvMessage(_ message: PSMessage) {
-        if currentPath!.hasSuffix("/") {
-            recvDirectory(message)
-        } else {
-            recvFile(message)
-        }
-
-        syncNext()
-    }
-
     private func recvDirectory(_ message: PSMessage) {
         guard let path = currentPath else {
             return
@@ -105,7 +93,13 @@ public class SyncAgent: NSObject {
             return
         }
 
-        recvMessage(message)
+        if currentPath!.hasSuffix("/") {
+            recvDirectory(message)
+        } else {
+            recvFile(message)
+        }
+
+        syncNext()
     }
 }
 
