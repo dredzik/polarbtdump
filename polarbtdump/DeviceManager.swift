@@ -9,22 +9,6 @@
 import CoreBluetooth
 import Foundation
 
-public class Device: NSObject {
-
-    let identifier: UUID
-    let name: String
-
-    var central: CBCentral?
-    let peripheral: CBPeripheral
-
-    public init(_ peripheral: CBPeripheral) {
-        self.identifier = peripheral.identifier
-        self.name = peripheral.name!
-
-        self.peripheral = peripheral
-    }
-}
-
 public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate {
 
     var centralManager: CBCentralManager?

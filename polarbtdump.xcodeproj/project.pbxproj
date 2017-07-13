@@ -17,6 +17,7 @@
 		88097DF11F13AD260035ABB3 /* Messages.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88097DF01F13AD260035ABB3 /* Messages.pb.swift */; };
 		888CD8C11F1774EB00A49A11 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888CD8C01F1774EB00A49A11 /* DeviceManager.swift */; };
 		888CD8C51F17A9C500A49A11 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888CD8C41F17A9C500A49A11 /* SyncManager.swift */; };
+		888CD8C71F17AD2600A49A11 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888CD8C61F17AD2600A49A11 /* Device.swift */; };
 		88C463D41F13A94000D93034 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C463D31F13A94000D93034 /* AppDelegate.swift */; };
 		88C463D81F13A94000D93034 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88C463D71F13A94000D93034 /* Assets.xcassets */; };
 		88C463DB1F13A94000D93034 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C463D91F13A94000D93034 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		88097DF01F13AD260035ABB3 /* Messages.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.pb.swift; sourceTree = "<group>"; };
 		888CD8C01F1774EB00A49A11 /* DeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		888CD8C41F17A9C500A49A11 /* SyncManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
+		888CD8C61F17AD2600A49A11 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		88C463D01F13A94000D93034 /* polarbtdump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = polarbtdump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C463D31F13A94000D93034 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88C463D71F13A94000D93034 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				88B9D7431F13D028005AE084 /* Protocol */,
 				88097DDE1F13AA010035ABB3 /* Constants.swift */,
+				888CD8C61F17AD2600A49A11 /* Device.swift */,
 				888CD8C01F1774EB00A49A11 /* DeviceManager.swift */,
 				88097DDF1F13AA010035ABB3 /* SyncAgent.swift */,
 				888CD8C41F17A9C500A49A11 /* SyncManager.swift */,
@@ -243,6 +246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				888CD8C71F17AD2600A49A11 /* Device.swift in Sources */,
 				88097DE81F13AA010035ABB3 /* SyncAgent.swift in Sources */,
 				88097DF11F13AD260035ABB3 /* Messages.pb.swift in Sources */,
 				88097DEE1F13AA010035ABB3 /* PSPacket.swift in Sources */,
