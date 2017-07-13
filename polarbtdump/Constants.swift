@@ -31,6 +31,10 @@ let PBTDNDeviceConnected = Notification.Name("PBTDNDeviceConnected")
 let PBTDNDeviceDisconnected = Notification.Name("PBTDNDeviceDisconnected")
 let PBTDNDeviceReady = Notification.Name("PBTDNDeviceReady")
 
+let PBTDNMessageRecv = Notification.Name("PBTDNMessageRecv")
+let PBTDNMessageSend = Notification.Name("PBTDNMessageSend")
+let PBTDNMessageRaw = Notification.Name("PBTDNMessageRaw")
+
 let PBTDNPacketRecv = Notification.Name("PBTDNPacketRecv")
 let PBTDNPacketSend = Notification.Name("PBTDNPacketSend")
 let PBTDNPacketSendSuccess = Notification.Name("PBTDNPacketSendSuccess")

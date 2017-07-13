@@ -14,9 +14,6 @@ public class SyncAgent: NSObject {
 
     private var currentPath: String?
     private var pathsToVisit = [String]()
-    private var recvChunks = [PSChunk]()
-    private var recvPackets = [PSPacket]()
-    private var sendPackets = [Data]()
 
     init(_ device: Device) {
         self.device = device
@@ -24,15 +21,13 @@ public class SyncAgent: NSObject {
         super.init()
 
         NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: device, queue: nil, using: self.notificationDeviceReady)
-        NotificationCenter.default.addObserver(forName: PBTDNPacketRecv, object: device, queue: nil, using: self.notificationPacketRecv)
-        NotificationCenter.default.addObserver(forName: PBTDNPacketSendSuccess, object: device, queue: nil, using: self.notificationPacketSendSuccess)
-        NotificationCenter.default.addObserver(forName: PBTDNPacketSendReady, object: nil, queue: nil, using: self.notificationPacketSendReady)
+        NotificationCenter.default.addObserver(forName: PBTDNMessageRecv, object: device, queue: nil, using: self.notificationMessageRecv)
+
     }
     
     private func sync() {
         NotificationCenter.default.post(name: PBTDNSyncStarted, object: device)
-
-        sendRaw(Constants.Packets.SyncBegin)
+        NotificationCenter.default.post(name: PBTDNMessageRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])
 
         pathsToVisit.append("/")
         syncNext()
@@ -41,9 +36,8 @@ public class SyncAgent: NSObject {
     private func syncNext() {
         if pathsToVisit.count == 0 {
             NotificationCenter.default.post(name: PBTDNSyncFinished, object: device)
-
-            sendRaw(Constants.Packets.SyncEnd)
-            sendRaw(Constants.Packets.SessionEnd)
+            NotificationCenter.default.post(name: PBTDNMessageRaw, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
+            NotificationCenter.default.post(name: PBTDNMessageRaw, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
 
             return
         }
@@ -54,57 +48,13 @@ public class SyncAgent: NSObject {
             $0.path = currentPath!
         }
 
-        sendMessage(PSMessage(request))
-    }
-    
-    // Sending
-    private func sendMessage(_ message: PSMessage) {
-        for chunk in PSMessage.encode(message) {
-            for packet in PSChunk.encode(chunk) {
-                sendPackets.append(PSPacket.encode(packet))
-            }
-        }
+        let message = PSMessage(request)
 
-        sendPacket()
+        NotificationCenter.default.post(name: PBTDNMessageSend, object: device, userInfo: ["Data" : message])
     }
     
-    private func sendRaw(_ value: Data) {
-        sendPackets.append(value)
-        sendPacket()
-    }
-    
-    private func sendPacket() {
-        if sendPackets.count > 0 {
-            NotificationCenter.default.post(name: PBTDNPacketSend, object: device, userInfo: ["Data" : sendPackets[0]])
-        }
-    }
-
     // Receiving
-    private func recvPacket(_ value: Data) {
-        let packet = PSPacket.decode(value)
-        recvPackets.append(packet)
-        
-        if packet.sequence == 0 {
-            recvChunk(recvPackets)
-            recvPackets.removeAll()
-        }
-    }
-    
-    private func recvChunk(_ packets: [PSPacket]) {
-        let chunk = PSChunk.decode(packets)
-        recvChunks.append(chunk)
-        
-        if packets.last!.more {
-            sendRaw(Data([0x09, chunk.number]))
-        } else {
-            recvMessage(recvChunks)
-            recvChunks.removeAll()
-        }
-    }
-    
-    private func recvMessage(_ chunks: [PSChunk]) {
-        let message = PSMessage.decode(chunks)
-
+    private func recvMessage(_ message: PSMessage) {
         if currentPath!.hasSuffix("/") {
             recvDirectory(message)
         } else {
@@ -150,21 +100,12 @@ public class SyncAgent: NSObject {
         sync()
     }
 
-    func notificationPacketRecv(_ aNotification: Notification) {
-        guard let data = aNotification.userInfo?["Data"] as? Data else {
+    func notificationMessageRecv(_ aNotification: Notification) {
+        guard let message = aNotification.userInfo?["Data"] as? PSMessage else {
             return
         }
 
-        recvPacket(data)
-    }
-
-    func notificationPacketSendSuccess(_ aNotification: Notification) {
-        sendPackets.removeFirst()
-        sendPacket()
-    }
-
-    func notificationPacketSendReady(_ aNotification: Notification) {
-        sendPacket()
+        recvMessage(message)
     }
 }
 

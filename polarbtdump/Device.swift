@@ -11,16 +11,112 @@ import CoreBluetooth
 
 public class Device: NSObject {
 
-    let identifier: UUID
-    let name: String
+    public let identifier: UUID
+    public let name: String
+    public var central: CBCentral?
+    public let peripheral: CBPeripheral
 
-    var central: CBCentral?
-    let peripheral: CBPeripheral
+    private var sendPackets = [Data]()
+    private var recvChunks = [PSChunk]()
+    private var recvPackets = [PSPacket]()
 
     public init(_ peripheral: CBPeripheral) {
         self.identifier = peripheral.identifier
         self.name = peripheral.name!
-
         self.peripheral = peripheral
+
+        super.init()
+
+        NotificationCenter.default.addObserver(forName: PBTDNMessageSend, object: self, queue: nil, using: self.notificationMessageSend)
+        NotificationCenter.default.addObserver(forName: PBTDNMessageRaw, object: self, queue: nil, using: self.notificationMessageRaw)
+
+        NotificationCenter.default.addObserver(forName: PBTDNPacketSendSuccess, object: self, queue: nil, using: self.notificationPacketSendSuccess)
+        NotificationCenter.default.addObserver(forName: PBTDNPacketSendReady, object: nil, queue: nil, using: self.notificationPacketSendReady)
+        NotificationCenter.default.addObserver(forName: PBTDNPacketRecv, object: self, queue: nil, using: self.notificationPacketRecv)
+    }
+
+    // MARK: Send
+    private func sendMessage(_ message: PSMessage) {
+        for chunk in PSMessage.encode(message) {
+            for packet in PSChunk.encode(chunk) {
+                sendPackets.append(PSPacket.encode(packet))
+            }
+        }
+
+        sendPacket()
+    }
+
+    private func sendRaw(_ value: Data) {
+        sendPackets.append(value)
+        sendPacket()
+    }
+
+    private func sendPacket() {
+        if sendPackets.count > 0 {
+            NotificationCenter.default.post(name: PBTDNPacketSend, object: self, userInfo: ["Data" : sendPackets[0]])
+        }
+    }
+
+    // MARK: Recv
+    private func recvPacket(_ value: Data) {
+        let packet = PSPacket.decode(value)
+        recvPackets.append(packet)
+
+        if packet.sequence == 0 {
+            recvChunk(recvPackets)
+            recvPackets.removeAll()
+        }
+    }
+
+    private func recvChunk(_ packets: [PSPacket]) {
+        let chunk = PSChunk.decode(packets)
+        recvChunks.append(chunk)
+
+        if packets.last!.more {
+            sendRaw(Data([0x09, chunk.number]))
+        } else {
+            recvMessage(recvChunks)
+            recvChunks.removeAll()
+        }
+    }
+
+    private func recvMessage(_ chunks: [PSChunk]) {
+        let message = PSMessage.decode(chunks)
+
+        NotificationCenter.default.post(name: PBTDNMessageRecv, object: self, userInfo: ["Data" : message])
+    }
+
+    // MARK: Notifications
+    func notificationMessageSend(_ aNotification: Notification) {
+        guard let message = aNotification.userInfo?["Data"] as? PSMessage else {
+            return
+        }
+
+        sendMessage(message)
+    }
+
+    func notificationMessageRaw(_ aNotification: Notification) {
+        guard let data = aNotification.userInfo?["Data"] as? Data else {
+            return
+        }
+
+        sendRaw(data)
+    }
+
+    func notificationPacketSendSuccess(_ aNotification: Notification) {
+        sendPackets.removeFirst()
+        sendPacket()
+    }
+
+    func notificationPacketSendReady(_ aNotification: Notification) {
+        sendPacket()
+    }
+
+    func notificationPacketRecv(_ aNotification: Notification) {
+        guard let data = aNotification.userInfo?["Data"] as? Data else {
+            return
+        }
+
+        recvPacket(data)
     }
 }
