@@ -33,6 +33,7 @@ public class Dumper: NSObject {
 
         NotificationCenter.default.addObserver(forName: PBTDNDeviceReady, object: device, queue: nil, using: self.notificationDeviceReady)
         NotificationCenter.default.addObserver(forName: PBTDNPacketRecv, object: device, queue: nil, using: self.notificationPacketRecv)
+        NotificationCenter.default.addObserver(forName: PBTDNPacketSendReady, object: nil, queue: nil, using: self.notificationPacketSendReady)
     }
     
     private func dump() {
@@ -81,7 +82,7 @@ public class Dumper: NSObject {
         sendPacket()
     }
     
-    public func sendPacket() {
+    private func sendPacket() {
         while sendPackets.count > 0 {
             if !delegate.updateValue(sendPackets[0], forDevice: device) {
                 break
@@ -97,7 +98,7 @@ public class Dumper: NSObject {
     }
     
     // Receiving
-    public func recvPacket(_ value: Data) {
+    private func recvPacket(_ value: Data) {
         let packet = PSPacket.decode(value)
         recvPackets.append(packet)
         
@@ -164,7 +165,7 @@ public class Dumper: NSObject {
 
     // MARK: Notifications
     func notificationDeviceReady(_ aNotification: Notification) {
-        self.dump()
+        dump()
     }
 
     func notificationPacketRecv(_ aNotification: Notification) {
@@ -172,7 +173,11 @@ public class Dumper: NSObject {
             return
         }
 
-        self.recvPacket(data)
+        recvPacket(data)
+    }
+
+    func notificationPacketSendReady(_ aNotification: Notification) {
+        sendPacket()
     }
 }
 

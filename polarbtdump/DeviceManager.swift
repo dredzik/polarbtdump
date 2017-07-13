@@ -163,9 +163,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
     }
 
     public func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
-        dumpers.forEach {
-            $1.sendPacket()
-        }
+        NotificationCenter.default.post(name: PBTDNPacketSendReady, object: nil, userInfo: nil)
     }
 
     // MARK: DumperDelegate
