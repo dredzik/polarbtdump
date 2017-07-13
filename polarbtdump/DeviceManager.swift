@@ -11,10 +11,10 @@ import Foundation
 
 public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate {
 
-    var centralManager: CBCentralManager?
-    var peripheralManager: CBPeripheralManager?
-    let service = CBMutableService(type: Constants.UUIDs.Service, primary: true)
-    let data = CBMutableCharacteristic(type: Constants.UUIDs.Data, properties: Constants.Props, value: nil, permissions: Constants.Perms)
+    private var centralManager: CBCentralManager!
+    private var peripheralManager: CBPeripheralManager!
+    private let service = CBMutableService(type: Constants.UUIDs.Service, primary: true)
+    private let characteristic = CBMutableCharacteristic(type: Constants.UUIDs.Data, properties: Constants.Props, value: nil, permissions: Constants.Perms)
 
     var devices: [UUID : Device] = [:]
 
@@ -24,7 +24,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
         centralManager = CBCentralManager(delegate: self, queue: nil)
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
 
-        service.characteristics = [data]
+        service.characteristics = [characteristic]
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationPacketSend(_:)), name: Notifications.Packet.Send, object: nil)
     }
@@ -108,7 +108,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
         peripheral.respond(to: request, withResult: .success)
-        data.value = Data([0x0f, 0x00])
+        characteristic.value = Data([0x0f, 0x00])
 
         let identifier = request.central.identifier
 
@@ -132,7 +132,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        data.value = value
+        characteristic.value = value
 
         NotificationCenter.default.post(name: Notifications.Packet.Recv, object: device, userInfo: ["Data" : value])
     }
@@ -161,7 +161,7 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
-        let result = peripheralManager!.updateValue(value, for: data, onSubscribedCentrals: [central])
+        let result = peripheralManager.updateValue(value, for: characteristic, onSubscribedCentrals: [central])
 
         NotificationCenter.default.post(name: result ? Notifications.Packet.SendSuccess : Notifications.Packet.SendFailure, object: device)
     }
