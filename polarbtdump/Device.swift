@@ -35,7 +35,7 @@ public class Device: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageSend(_:)), name: Notifications.Message.Send, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.sendMessage(_:)), name: Notifications.Message.Send, object: self)
     }
 
     deinit {
@@ -57,7 +57,21 @@ public class Device: NSObject {
     }
 
     // MARK: Send
-    private func sendMessage(_ message: PSMessage) {
+    func sendMessage(_ notification: Notification) {
+        guard let data = notification.userInfo?["Data"] else {
+            return
+        }
+
+        if let message = data as? PSMessage {
+            sendMessage(message: message)
+        }
+
+        if let rawMessage = data as? Data {
+            sendMessage(raw: rawMessage)
+        }
+    }
+
+    private func sendMessage(message: PSMessage) {
         for chunk in PSMessage.encode(message) {
             for packet in PSChunk.encode(chunk) {
                 sendPackets.append(PSPacket.encode(packet))
@@ -67,8 +81,8 @@ public class Device: NSObject {
         send()
     }
 
-    private func sendMessage(raw message: Data) {
-        sendPackets.append(message)
+    private func sendMessage(raw: Data) {
+        sendPackets.append(raw)
         send()
     }
 
@@ -98,21 +112,6 @@ public class Device: NSObject {
         if packet.sequence == 0 {
             recvChunk(recvPackets)
             recvPackets.removeAll()
-        }
-    }
-
-    // MARK: Notifications
-    func notificationMessageSend(_ notification: Notification) {
-        guard let data = notification.userInfo?["Data"] else {
-            return
-        }
-
-        if let message = data as? PSMessage {
-            sendMessage(message)
-        }
-
-        if let rawMessage = data as? Data {
-            sendMessage(raw: rawMessage)
         }
     }
 }

@@ -84,6 +84,15 @@
 			name = Device;
 			sourceTree = "<group>";
 		};
+		889596941F18398400990761 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				88097DDF1F13AA010035ABB3 /* SyncAgent.swift */,
+				888CD8C41F17A9C500A49A11 /* SyncManager.swift */,
+			);
+			name = Sync;
+			sourceTree = "<group>";
+		};
 		88B9D7431F13D028005AE084 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,9 +128,8 @@
 			children = (
 				88B9D7431F13D028005AE084 /* Protocol */,
 				888CD8C81F17CF9C00A49A11 /* Device */,
+				889596941F18398400990761 /* Sync */,
 				88097DDE1F13AA010035ABB3 /* Constants.swift */,
-				88097DDF1F13AA010035ABB3 /* SyncAgent.swift */,
-				888CD8C41F17A9C500A49A11 /* SyncManager.swift */,
 				88097DE61F13AA010035ABB3 /* Util.swift */,
 				88C463D31F13A94000D93034 /* AppDelegate.swift */,
 				88C463D71F13A94000D93034 /* Assets.xcassets */,

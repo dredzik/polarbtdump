@@ -37,7 +37,14 @@ struct Notifications {
         static let Send = Notification.Name("BFMessageSend")
     }
 
+    struct DeviceInfo {
+        static let Start = Notification.Name("BFDeviceInfoStart")
+        static let Started = Notification.Name("BFDeviceInfoStarted")
+        static let Finished = Notification.Name("BFDeviceInfoFinished")
+    }
+
     struct Sync {
+        static let Start = Notification.Name("BFSyncStart")
         static let Started = Notification.Name("BFSyncStarted")
         static let Finished = Notification.Name("BFSyncFinished")
     }

@@ -20,15 +20,17 @@ public class SyncAgent: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationDeviceReady(_:)), name: Notifications.Device.Ready, object: device)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationMessageRecv(_:)), name: Notifications.Message.Recv, object: device)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.syncStart(_:)), name: Notifications.Sync.Start, object: device)
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
-    private func sync() {
+    // MARK: Sync
+    func syncStart(_ notification: Notification) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.recv(_:)), name: Notifications.Message.Recv, object: device)
+
         NotificationCenter.default.post(name: Notifications.Sync.Started, object: device)
         NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])
 
@@ -38,14 +40,13 @@ public class SyncAgent: NSObject {
     
     private func syncNext() {
         if pathsToVisit.count == 0 {
-            NotificationCenter.default.post(name: Notifications.Sync.Finished, object: device)
-            NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
-            NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
+            syncFinish()
 
             return
         }
         
         currentPath = pathsToVisit.removeFirst()
+
         let request = PolarRequest.with {
             $0.type = .read
             $0.path = currentPath!
@@ -55,7 +56,30 @@ public class SyncAgent: NSObject {
 
         NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : message])
     }
-    
+
+    func syncFinish() {
+        NotificationCenter.default.removeObserver(self, name: Notifications.Message.Recv, object: device)
+
+        NotificationCenter.default.post(name: Notifications.Sync.Finished, object: device)
+        NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
+        NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
+    }
+
+    // MARK: Recv
+    func recv(_ aNotification: Notification) {
+        guard let message = aNotification.userInfo?["Data"] as? PSMessage else {
+            return
+        }
+
+        if currentPath!.hasSuffix("/") {
+            recvDirectory(message)
+        } else {
+            recvFile(message)
+        }
+
+        syncNext()
+    }
+
     private func recvDirectory(_ message: PSMessage) {
         guard let path = currentPath else {
             return
@@ -85,25 +109,6 @@ public class SyncAgent: NSObject {
         let content = Data(message.payload.dropLast())
 
         try! content.write(to: url)
-    }
-
-    // MARK: Notifications
-    func notificationDeviceReady(_ aNotification: Notification) {
-        sync()
-    }
-
-    func notificationMessageRecv(_ aNotification: Notification) {
-        guard let message = aNotification.userInfo?["Data"] as? PSMessage else {
-            return
-        }
-
-        if currentPath!.hasSuffix("/") {
-            recvDirectory(message)
-        } else {
-            recvFile(message)
-        }
-
-        syncNext()
     }
 }
 

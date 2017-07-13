@@ -19,6 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         deviceManager = DeviceManager()
         syncManager = SyncManager()
 
+        NotificationCenter.default.addObserver(self, selector: #selector(self.manageWorkflow(_:)), name: nil, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifyUser(_:)), name: nil, object: nil)
     }
 
@@ -27,6 +28,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // MARK: Notifications
+    func manageWorkflow(_ notification: Notification) {
+        var next: Notification.Name
+
+        switch notification.name {
+        case Notifications.Device.Ready:
+            next = Notifications.Sync.Start
+        default:
+            return
+        }
+
+        NotificationCenter.default.post(name: next, object: notification.object, userInfo: notification.userInfo)
+    }
+
     func notifyUser(_ notification: Notification) {
         var message = ""
 
