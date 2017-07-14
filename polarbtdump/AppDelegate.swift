@@ -11,11 +11,13 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private var deviceInfo: DeviceInfo?
     private var deviceManager: DeviceManager?
     private var syncManager: SyncManager?
 
     // MARK: NSApplicationDelegate
     func applicationDidFinishLaunching(_ notification: Notification) {
+        deviceInfo = DeviceInfo()
         deviceManager = DeviceManager()
         syncManager = SyncManager()
 
@@ -33,6 +35,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         switch notification.name {
         case Notifications.Device.Ready:
+            next = Notifications.DeviceInfo.Start
+        case Notifications.DeviceInfo.Finished:
             next = Notifications.Sync.Start
         default:
             return
@@ -47,12 +51,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         switch notification.name {
         case Notifications.Device.Connected:
             message = "Device connected"
-        case Notifications.Device.Disconnected:
-            message = "Device disconnected"
+        case Notifications.DeviceInfo.Started:
+            message = "Reading device"
         case Notifications.Sync.Started:
-            message = "Sync started"
-        case Notifications.Sync.Finished:
-            message = "Sync finished"
+            message = "Syncing device"
         default:
             return
         }
@@ -63,8 +65,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let user = NSUserNotification()
 
-        user.title = device.name
         user.informativeText = message
+        user.title = device.name
 
         NSUserNotificationCenter.default.deliver(user)
     }

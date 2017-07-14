@@ -30,7 +30,6 @@ public class SyncAgent: NSObject {
     // MARK: Sync
     func syncStart(_ notification: Notification) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.recv(_:)), name: Notifications.Message.Recv, object: device)
-
         NotificationCenter.default.post(name: Notifications.Sync.Started, object: device)
         NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SyncBegin])
 
@@ -59,7 +58,6 @@ public class SyncAgent: NSObject {
 
     func syncFinish() {
         NotificationCenter.default.removeObserver(self, name: Notifications.Message.Recv, object: device)
-
         NotificationCenter.default.post(name: Notifications.Sync.Finished, object: device)
         NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SyncEnd])
         NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : Constants.Packets.SessionEnd])
@@ -86,9 +84,7 @@ public class SyncAgent: NSObject {
         }
 
         let url = PBTDUrlForPath(path, forDevice: device)
-        let content = Data(message.payload.dropLast())
-
-        let list = try! PolarDirectory(serializedData: content)
+        let list = try! PolarDirectory(serializedData: message.data)
 
         for entry in list.entries {
             let childPath = path + entry.path

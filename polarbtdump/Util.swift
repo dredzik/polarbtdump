@@ -38,7 +38,7 @@ func PBTDUrlForPath(_ path: String, forDevice device: Device) -> URL {
 
     let rootDirectory = manager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
     let applicationDirectory = rootDirectory.appendingPathComponent(identifier!)
-    let deviceDirectory = applicationDirectory.appendingPathComponent(device.identifier.description)
+    let deviceDirectory = applicationDirectory.appendingPathComponent(device.identifier!)
 
     try! manager.createDirectory(at: deviceDirectory, withIntermediateDirectories: true, attributes: nil)
 

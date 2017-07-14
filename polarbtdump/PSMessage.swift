@@ -38,6 +38,10 @@ public class PSMessage: NSObject {
     var header: Data = Data([0x00, 0x00])
     var payload: Data = Data()
 
+    var data: Data {
+        return Data(self.payload.dropLast())
+    }
+
     public override init() {
         super.init()
     }

@@ -17,8 +17,9 @@ public class Device: NSObject {
 
     private let delegate: DeviceDelegate
 
-    public let identifier: UUID
+    public var identifier: String?
     public let name: String
+
     public var central: CBCentral?
     public let peripheral: CBPeripheral
 
@@ -29,7 +30,6 @@ public class Device: NSObject {
     public init(_ delegate: DeviceDelegate, peripheral: CBPeripheral) {
         self.delegate = delegate
 
-        self.identifier = peripheral.identifier
         self.name = peripheral.name!
         self.peripheral = peripheral
 

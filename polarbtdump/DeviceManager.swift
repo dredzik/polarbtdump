@@ -45,8 +45,10 @@ public class DeviceManager: NSObject, CBCentralManagerDelegate, CBPeripheralMana
             return
         }
 
+        let identifier = peripheral.identifier
         let device = Device(self, peripheral: peripheral)
-        devices[device.identifier] = device
+
+        devices[identifier] = device
 
         central.stopScan()
         central.connect(device.peripheral, options: nil)

@@ -18,6 +18,7 @@
 		888CD8C11F1774EB00A49A11 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888CD8C01F1774EB00A49A11 /* DeviceManager.swift */; };
 		888CD8C51F17A9C500A49A11 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888CD8C41F17A9C500A49A11 /* SyncManager.swift */; };
 		888CD8C71F17AD2600A49A11 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888CD8C61F17AD2600A49A11 /* Device.swift */; };
+		889596961F183B3100990761 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889596951F183B3100990761 /* DeviceInfo.swift */; };
 		88C463D41F13A94000D93034 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C463D31F13A94000D93034 /* AppDelegate.swift */; };
 		88C463D81F13A94000D93034 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88C463D71F13A94000D93034 /* Assets.xcassets */; };
 		88C463DB1F13A94000D93034 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C463D91F13A94000D93034 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 		888CD8C01F1774EB00A49A11 /* DeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		888CD8C41F17A9C500A49A11 /* SyncManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		888CD8C61F17AD2600A49A11 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		889596951F183B3100990761 /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		88C463D01F13A94000D93034 /* polarbtdump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = polarbtdump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C463D31F13A94000D93034 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88C463D71F13A94000D93034 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				888CD8C61F17AD2600A49A11 /* Device.swift */,
+				889596951F183B3100990761 /* DeviceInfo.swift */,
 				888CD8C01F1774EB00A49A11 /* DeviceManager.swift */,
 			);
 			name = Device;
@@ -269,6 +272,7 @@
 				88097DED1F13AA010035ABB3 /* PSMessage.swift in Sources */,
 				88097DEC1F13AA010035ABB3 /* PSChunk.swift in Sources */,
 				88097DEF1F13AA010035ABB3 /* Util.swift in Sources */,
+				889596961F183B3100990761 /* DeviceInfo.swift in Sources */,
 				888CD8C51F17A9C500A49A11 /* SyncManager.swift in Sources */,
 				88C463D41F13A94000D93034 /* AppDelegate.swift in Sources */,
 				888CD8C11F1774EB00A49A11 /* DeviceManager.swift in Sources */,
