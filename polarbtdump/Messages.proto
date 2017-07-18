@@ -30,7 +30,7 @@ message PolarDevice {
     optional string modelGender = 10;
 }
 
-message PolarSessionData {
+message PolarSession {
     message PolarLabel {
         optional string name = 1;
     }
@@ -43,13 +43,13 @@ message PolarSessionData {
     optional PolarTime duration = 5;
     optional float distance = 6;
     optional uint32 calories = 7;
-    optional PolarHeartrate heartrate = 8;
-    optional PolarTime heartrateDuration = 9;
+    optional PolarHeartRate heartRate = 8;
+    optional PolarTime heartRateDuration = 9;
     optional PolarTrainingLoad trainingLoad = 10;
     optional PolarLabel label = 11;
 }
 
-message PolarExerciseData {
+message PolarExercise {
     message PolarSport {
         optional uint64 value = 1;
     }
@@ -71,7 +71,7 @@ message PolarExerciseData {
 }
 
 
-message PolarHeartrate {
+message PolarHeartRate {
     optional uint32 average = 1;
     optional uint32 maximum = 2;
     optional uint32 minimum = 3;

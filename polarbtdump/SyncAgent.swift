@@ -83,7 +83,7 @@ public class SyncAgent: NSObject {
             return
         }
 
-        let url = PBTDUrlForPath(path, forDevice: device)
+        _ = PBTDUrlForPath(path, forDevice: device)
         let list = try! PolarDirectory(serializedData: message.data)
 
         for entry in list.entries {

@@ -13,14 +13,14 @@ public class DeviceInfo: NSObject {
     public override init() {
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.readDevice(_:)), name: Notifications.DeviceInfo.Start, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.readDeviceInfo(_:)), name: Notifications.DeviceInfo.Start, object: nil)
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func readDevice(_ notification: Notification) {
+    func readDeviceInfo(_ notification: Notification) {
         guard let device = notification.object as? Device else {
             return
         }
@@ -32,13 +32,12 @@ public class DeviceInfo: NSObject {
 
         let message = PSMessage(request)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.recv(_:)), name: Notifications.Message.Recv, object: device)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.recvDeviceInfo(_:)), name: Notifications.Message.Recv, object: device)
         NotificationCenter.default.post(name: Notifications.DeviceInfo.Started, object: device)
         NotificationCenter.default.post(name: Notifications.Message.Send, object: device, userInfo: ["Data" : message])
-
     }
 
-    func recv(_ notification: Notification) {
+    func recvDeviceInfo(_ notification: Notification) {
         guard let device = notification.object as? Device else {
             return
         }
@@ -46,8 +45,6 @@ public class DeviceInfo: NSObject {
         if let message = notification.userInfo?["Data"] as? PSMessage {
             let info = try! PolarDevice(serializedData: message.data)
             device.identifier = info.deviceID
-
-            print(info)
         }
 
         NotificationCenter.default.removeObserver(self, name: Notifications.Message.Recv, object: device)
